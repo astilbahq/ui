@@ -1,0 +1,4 @@
+[[IgnoredVulns]]
+id = "GHSA-frvp-7c67-39w9"
+ignoreUntil = 2026-08-25
+reason = "Dev-only @pandacss/dev dependency. Panda's MCP server uses stdio, not the vulnerable Windows serve-static path; revisit when the MCP SDK accepts @hono/node-server 2."
