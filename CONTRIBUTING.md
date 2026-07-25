@@ -15,7 +15,10 @@ The repository pins Node.js and pnpm versions. Run `pnpm install` again after de
 
 ## Pull requests
 
+- Make changes through a pull request; direct updates to `main` are blocked.
 - Add or update tests for observable behaviour.
 - Keep generated files and lockfiles in sync with their sources.
 - Run `pnpm verify` before opening the pull request.
+- Keep the branch up to date and resolve every review thread before merging.
+- Use squash merge after the required checks pass.
 - Explain any security, compatibility, or migration impact in the description.
