@@ -1,0 +1,48 @@
+{
+  "name": "@astilba/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Astilba's framework-neutral design tokens and Panda preset.",
+  "homepage": "https://github.com/astilbahq/ui/tree/main/packages/tokens#readme",
+  "bugs": {
+    "url": "https://github.com/astilbahq/ui/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astilbahq/ui.git",
+    "directory": "packages/tokens"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "./dist/tokens.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./css": "./dist/tokens.css",
+    "./panda": {
+      "types": "./dist/panda.d.ts",
+      "import": "./dist/panda.js"
+    },
+    "./styles.css": "./dist/tokens.css",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && tsx scripts/build-css.ts",
+    "pack:check": "pnpm build && publint && attw --pack --profile esm-only --exclude-entrypoints ./css ./styles.css",
+    "test": "pnpm build && vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "vitest": "4.1.10"
+  }
+}

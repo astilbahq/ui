@@ -3,12 +3,12 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
+    "emitDeclarationOnly": true,
     "noEmit": false,
     "outDir": "./dist",
     "rootDir": "./src",
-    "sourceMap": true,
-    "types": ["node"]
+    "types": ["react", "react-dom"]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["tests/**/*.ts", "*.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["tests/**/*.tsx", "*.config.ts"]
 }

@@ -3,5 +3,9 @@ import ultracite from "ultracite/oxfmt";
 
 export default defineConfig({
   ...ultracite,
-  ignorePatterns: [...(ultracite.ignorePatterns ?? []), "dist/**"],
+  ignorePatterns: [
+    ...(ultracite.ignorePatterns ?? []),
+    "**/dist/**",
+    "**/styled-system/**",
+  ],
 });
