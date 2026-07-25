@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "types": ["node", "vitest/globals"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "*.config.ts",
+    "styled-system/**/*.ts"
+  ]
+}
