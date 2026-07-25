@@ -1,0 +1,48 @@
+{
+  "name": "ui",
+  "version": "0.0.0",
+  "private": false,
+  "description": "Astilba's interface foundation and design system.",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check": "ultracite check",
+    "fix": "ultracite fix",
+    "knip": "knip",
+    "pack:check": "pnpm build && publint && attw --pack --profile esm-only",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "verify": "pnpm check && pnpm typecheck && pnpm test && pnpm knip && pnpm pack:check"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.5",
+    "@types/node": "24.13.3",
+    "knip": "6.26.0",
+    "oxfmt": "0.59.0",
+    "oxlint": "1.74.0",
+    "publint": "0.3.21",
+    "typescript": "6.0.3",
+    "ultracite": "7.9.4",
+    "vitest": "4.1.10"
+  },
+  "engines": {
+    "node": ">=22.18.0",
+    "pnpm": ">=11.10.0"
+  },
+  "packageManager": "pnpm@11.10.0"
+}

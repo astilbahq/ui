@@ -1,0 +1,278 @@
+{
+  "$schema": "https://astilba.com/schemas/create/v1.json",
+  "features": [],
+  "generator": {
+    "name": "create-astilba",
+    "version": "0.3.0"
+  },
+  "ownership": {
+    "managed": [
+      {
+        "path": ".editorconfig",
+        "sha256": "1bbe0f47f2f163679851e73b594d121a351b441c0b59eeb1738c1b2ce5a01b4c"
+      },
+      {
+        "path": ".gitattributes",
+        "sha256": "f3966e70301555129048e56b04c8bf3aeb674b771b4e169296d05777a0abc699"
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/bug.yml",
+        "sha256": "d8d57378cb529d16f7d84b35243f8b4847dfb7b7d2951bee12a67f462807c332"
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/config.yml",
+        "sha256": "3a4701856e6d1ece2984868db8b1bef3f182033ceebc05b2929618ffcebb5159"
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/feature.yml",
+        "sha256": "542a95cdb520d5ab37594ae63a6d925444020d3cc19704a4a7d188809d105c75"
+      },
+      {
+        "path": ".github/PULL_REQUEST_TEMPLATE.md",
+        "sha256": "99328c183857a624b0a70b3a7b6a3f9f15b11787145786497f61577367149631"
+      },
+      {
+        "path": ".github/workflows/actionlint.yml",
+        "sha256": "3f3387c5ebd61dc0e3b21be8e147dd470a501a76d45af1c67e828a3ab5f9ea89"
+      },
+      {
+        "path": ".github/workflows/codeql.yml",
+        "sha256": "f675cf9ccd1f7cb616ccb71c9b9efda3644eeb8fba196f264e33dd7bfdd8889d"
+      },
+      {
+        "path": ".github/workflows/dependency-review.yml",
+        "sha256": "4780455cb9dc10888b1e78d0cf2fa74d9f4b57cf9e3d665c9892caa686aa2838"
+      },
+      {
+        "path": ".github/workflows/osv-scanner.yml",
+        "sha256": "02136a36af2605631a54934f3539e76881314c7891b4e33b73933f1de2e7af09"
+      },
+      {
+        "path": ".github/workflows/pr-title.yml",
+        "sha256": "52a0cd95c3c098f98bf73a3a6254eddb7c52f77ad9642fd9e72e604eff707724"
+      },
+      {
+        "path": ".github/workflows/verification.yml",
+        "sha256": "298b3c4d699ea6be8aa1c3ba5128b12026464cd6be3a4f45e754f1118f70f15a"
+      },
+      {
+        "path": ".github/workflows/zizmor.yml",
+        "sha256": "18cd5ccf55a5f9c10dd73a4fd5f189adeda7084eba20ece05419a50dbec2e8a0"
+      },
+      {
+        "path": ".gitignore",
+        "sha256": "14ef4b0a4bb7199fbafe6de831071903d4558effbac14692bbf5363a97231c29"
+      },
+      {
+        "path": ".node-version",
+        "sha256": "55075b5ec4e8b31936cbbc282b8829116d1fd48f2f2f1856dee592a6650700ce"
+      },
+      {
+        "path": ".npmrc",
+        "sha256": "be85cc462e740587626bbcbb1c3ed1c40b26e62ec072e8cbd2768f23915c28e6"
+      },
+      {
+        "path": "AGENTS.md",
+        "sha256": "d8ba930133b5a0e95a56a78f4d519ed4193ad8fad506c32bf768637961f63e80"
+      },
+      {
+        "path": "SECURITY.md",
+        "sha256": "93d558fbb558c355fc95f512c5a280aa2360f0b53b169af098cb1d2baa56f13e"
+      },
+      {
+        "path": "docs/repository-settings.md",
+        "sha256": "aeac62760d8ae2b1129ab739d27f290351c982144157f6e1de9168f49759678a"
+      },
+      {
+        "path": "knip.json",
+        "sha256": "d66938dda5afdfcd69022a7613fb5f395ad06568244fde5130e1ed3cb29c241c"
+      },
+      {
+        "path": "oxfmt.config.ts",
+        "sha256": "22963d147f0772bf9025853dcf9a94bdd76fb923d47a1ac0ae88a8eea3deb7ea"
+      },
+      {
+        "path": "oxlint.config.ts",
+        "sha256": "5b2f3413f3fc463511b560cf34a2ab807c0ff8094326e5a95b49e43ebbe8ab62"
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "sha256": "6df7142418dae1ad1cf9527d321429283ab9a1c6d9b2c73e33500a809cc6bcc3"
+      },
+      {
+        "path": "pnpm-workspace.yaml",
+        "sha256": "33efd058bf083d91562c57b52f5d083afd6da267fd664322593ba8ca8ce834e8"
+      },
+      {
+        "path": "renovate.json",
+        "sha256": "48bafd01dd85dab7f1b99082ab26e2b7ea89edc546024ad27ffac8d517079f0d"
+      },
+      {
+        "path": "tsconfig.build.json",
+        "sha256": "8f1302881fc77d92c8629a736450e822c1ae0274ac88ebcc9ae052f6ec275480"
+      },
+      {
+        "path": "tsconfig.json",
+        "sha256": "4cd016da8bcebb9578f21f7bf2ab7f662cba66f5ec89c9fc0ec76ae48e8f5e7a"
+      },
+      {
+        "path": "vitest.config.ts",
+        "sha256": "73105c1f5a2ca3e53da4ac4e965c441533529505dcd53bc700d08c356e09f7df"
+      }
+    ],
+    "metadata": ".astilba/project.json",
+    "seeded": [
+      "CONTRIBUTING.md",
+      "LICENSE",
+      "README.md",
+      "src/index.ts",
+      "tests/index.test.ts"
+    ],
+    "structured": [
+      {
+        "fields": [
+          {
+            "pointer": "/description",
+            "sha256": "5a7e1c1322c82034cb2bc9fbb90a323be3b98e7a2706a22780c2141763d645d9"
+          },
+          {
+            "pointer": "/devDependencies/@arethetypeswrong~1cli",
+            "sha256": "39f8bfa505420d13a7b4afb0483c4d28b9505b6a041ac988517535a016ad01bb"
+          },
+          {
+            "pointer": "/devDependencies/@types~1node",
+            "sha256": "33da519bd1a5ad12854085e6e779b9bde3a593e17324ec2a560607c3658a20a2"
+          },
+          {
+            "pointer": "/devDependencies/knip",
+            "sha256": "6306251ab4a481461fc67ddc9e8079e3372482617d7688b5a5fd47d44debb7d3"
+          },
+          {
+            "pointer": "/devDependencies/oxfmt",
+            "sha256": "ef8ebf9d0ee7bea33082d33bd89c02feaf8206d2dfb1c3ce0b4faf746436b400"
+          },
+          {
+            "pointer": "/devDependencies/oxlint",
+            "sha256": "fb5ba7aa93591c2b527ad466e04be403049baae6415d9fe8eccfcc0858e9858e"
+          },
+          {
+            "pointer": "/devDependencies/publint",
+            "sha256": "42d266a6f79751e213777f45a624ba399e222e190a825b0e8edd17839e83b623"
+          },
+          {
+            "pointer": "/devDependencies/typescript",
+            "sha256": "3e3fa41437ab238c8a99b85f9564f6e5443fb2f47ca54f841fd20e26bf699fb4"
+          },
+          {
+            "pointer": "/devDependencies/ultracite",
+            "sha256": "6ea9ebe4e8fb1db7a5c26ce40f107316df886db09cc6a51aacd6defb1e1f42b9"
+          },
+          {
+            "pointer": "/devDependencies/vitest",
+            "sha256": "cbb84a3868c92d45819f65514b9759aa915c523229e29af624ea51415a0ea10f"
+          },
+          {
+            "pointer": "/engines/node",
+            "sha256": "cfef3033975a10f1134e236234891ab93f683be23fd30493e81fb869b0987c52"
+          },
+          {
+            "pointer": "/engines/pnpm",
+            "sha256": "6ef5e9fdf2f5ec8abbb67389a823800d0b785e39aab576b8fa6218a0d93e6a20"
+          },
+          {
+            "pointer": "/exports/./import",
+            "sha256": "19475f49caa53ff14c25ad957093013dacc149fe2eb36b7ea994a951356d0f8e"
+          },
+          {
+            "pointer": "/exports/./types",
+            "sha256": "108ba7f71bbecaafe4958e8e8bff8ee89c127c5a626ef4082c46c13cf31d1e30"
+          },
+          {
+            "pointer": "/files",
+            "sha256": "191f543b4ff42e274d9256569db9541011bd4c58ecf3566b4f12f291fd6a9558"
+          },
+          {
+            "pointer": "/license",
+            "sha256": "529fc91e3f97d3b2c3fe5102bea89059d6aa65c9e44d6bbb86591bb31aa783e1"
+          },
+          {
+            "pointer": "/name",
+            "sha256": "2a10de19e9dd20b0afdd40f052013100c24f08260bdb3c686ba04dce8faa3929"
+          },
+          {
+            "pointer": "/packageManager",
+            "sha256": "ea4ed3ed9c8e33fca7009888596f863afcfa95a17fcd9de096d5d56d968ae6c7"
+          },
+          {
+            "pointer": "/private",
+            "sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+          },
+          {
+            "pointer": "/publishConfig/access",
+            "sha256": "b78532572a08261cbc0c918d293a0d4fb83b1a83e9dacef857e52efbd4b5c78b"
+          },
+          {
+            "pointer": "/scripts/build",
+            "sha256": "eb0c0613bb235f6672679e6c1b3e3bfbb962059cf4270fa75fa51773f2364b47"
+          },
+          {
+            "pointer": "/scripts/check",
+            "sha256": "bf545cef4d7e7b12cff68731d92fad685a15a48761cc4587c3ee53873e17bf3d"
+          },
+          {
+            "pointer": "/scripts/fix",
+            "sha256": "8d4e648c1d180d0f1ea20110f5bcca5e80c2f5dd52988f439423b647b6eac16e"
+          },
+          {
+            "pointer": "/scripts/knip",
+            "sha256": "3d71d14ec7b1b22e2be4896baaa1ceace91aea943bdc20c66e85d28ab78d9032"
+          },
+          {
+            "pointer": "/scripts/pack:check",
+            "sha256": "e1cd92403514d7ea05b1cb964ee1778724936f0b88f8e806f3967f7febb0f760"
+          },
+          {
+            "pointer": "/scripts/test",
+            "sha256": "8f1036543a0bc25aeefae4f8576b947b19a79dd5135d30e692a51bb3d20f6345"
+          },
+          {
+            "pointer": "/scripts/test:watch",
+            "sha256": "e7d8dc898b9979eff59dbfa3edbbd47b20378a0e33299da24fe1c93f84e88bbf"
+          },
+          {
+            "pointer": "/scripts/typecheck",
+            "sha256": "9a8999f9c52288059269c0f40ff8eafd14c9941076ccee86cd4bebb7c09d6b60"
+          },
+          {
+            "pointer": "/scripts/verify",
+            "sha256": "af39c034414ebefe699aef2331dc42bdecae4fa43e6e9261cca2e1852efbf152"
+          },
+          {
+            "pointer": "/sideEffects",
+            "sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+          },
+          {
+            "pointer": "/type",
+            "sha256": "51b03279c071bc2e55a377745fdd442c9eedc700152b19366572fa8f76d76017"
+          },
+          {
+            "pointer": "/version",
+            "sha256": "03091d605ba0cafdfa2d21835ec1ab8bf17e7b4b8060cfa08a2d3b7488b71371"
+          }
+        ],
+        "path": "package.json"
+      }
+    ],
+    "symlinks": [
+      {
+        "path": "CLAUDE.md",
+        "target": "AGENTS.md"
+      }
+    ]
+  },
+  "recipe": {
+    "id": "typescript-library",
+    "version": 2
+  },
+  "schemaVersion": 1
+}
