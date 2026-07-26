@@ -71,8 +71,8 @@ export const semanticColors = {
   },
   canvas: modeValue("#121212", "#fdfdfd"),
   ink: {
-    DEFAULT: modeValue("#ffffff", "#0d0d0d"),
     control: modeValue("#ededed", "#0d0d0d"),
+    default: modeValue("#ffffff", "#0d0d0d"),
     faint: modeValue("#8f8f8f", "#8f8f8f"),
     inverse: modeValue("#121212", "#fdfdfd"),
     muted: modeValue("rgba(202, 202, 202, 0.7)", "#6c6c6c"),
@@ -92,6 +92,7 @@ export const semanticColors = {
       primary: modeValue("#ffffff", "#0d0d0d"),
       primaryHover: modeValue("#e3e3e3", "#2a2a2a"),
     },
+    banner: modeValue("rgba(255, 255, 255, 0.04)", "rgba(243, 243, 243, 0.9)"),
     chrome: modeValue("rgba(18, 18, 18, 0.85)", "rgba(255, 255, 255, 0.85)"),
     codeBlock: modeValue("#181818", "#f7f7f7"),
     copy: {

@@ -43,8 +43,8 @@ export const astilbaPreset = {
           },
           canvas: themed(semanticColors.canvas),
           ink: {
-            DEFAULT: themed(semanticColors.ink.DEFAULT),
             control: themed(semanticColors.ink.control),
+            default: themed(semanticColors.ink.default),
             faint: themed(semanticColors.ink.faint),
             inverse: themed(semanticColors.ink.inverse),
             muted: themed(semanticColors.ink.muted),
@@ -64,6 +64,7 @@ export const astilbaPreset = {
               primary: themed(semanticColors.surface.action.primary),
               primaryHover: themed(semanticColors.surface.action.primaryHover),
             },
+            banner: themed(semanticColors.surface.banner),
             chrome: themed(semanticColors.surface.chrome),
             codeBlock: themed(semanticColors.surface.codeBlock),
             copy: {

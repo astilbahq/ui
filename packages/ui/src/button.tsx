@@ -1,7 +1,7 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import type { ComponentPropsWithoutRef } from "react";
 
-import { control } from "./styles.js";
+import { control } from "../styled-system/recipes";
 
 export type ControlAppearance = "ghost" | "outline" | "primary";
 export type ControlSize = "default" | "large";

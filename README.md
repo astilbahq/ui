@@ -7,7 +7,19 @@ The repository contains two intentionally small packages:
 - `@astilba/tokens` — semantic CSS variables and a Panda CSS preset.
 - `@astilba/ui` — accessible React controls built with Base UI and static CSS.
 
-Both packages remain private while the first real Astilba consumer proves the package boundaries. The private showcase app is a visual test harness, not a separate documentation product.
+Both packages are public. The private showcase app is a visual test harness, not a separate documentation product.
+
+## Packages
+
+```sh
+pnpm add @astilba/tokens
+pnpm add @astilba/ui @astilba/tokens
+```
+
+See the package guides for the supported entrypoints and integration examples:
+
+- [`@astilba/tokens`](packages/tokens/README.md)
+- [`@astilba/ui`](packages/ui/README.md)
 
 ## Development
 
@@ -21,4 +33,4 @@ Agent instructions are canonical in `AGENTS.md`; `CLAUDE.md` is a symbolic link.
 
 Temporary toolchain exceptions are recorded in [`docs/typechecking-exceptions.md`](docs/typechecking-exceptions.md).
 
-After the first push, complete the [repository-settings checklist](docs/repository-settings.md).
+Release operators should follow the [release process](docs/releasing.md).

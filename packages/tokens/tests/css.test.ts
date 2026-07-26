@@ -24,6 +24,10 @@ describe("static token CSS", () => {
     expect(css).toContain("--astilba-colors-canvas: #121212;");
     expect(css).toContain(':root[data-theme="light"]');
     expect(css).toContain("--astilba-colors-canvas: #fdfdfd;");
+    expect(css).toContain("--astilba-colors-ink-default: #0d0d0d;");
     expect(css).toContain("--astilba-colors-surface-action-primary: #0d0d0d;");
+    expect(css).toContain(
+      "--astilba-colors-surface-banner: rgba(243, 243, 243, 0.9);"
+    );
   });
 });
