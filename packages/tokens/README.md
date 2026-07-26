@@ -2,7 +2,11 @@
 
 Framework-neutral semantic tokens for Astilba interfaces.
 
-The package is private while its first real consumer proves the contract.
+## Installation
+
+```sh
+pnpm add @astilba/tokens
+```
 
 ## Static CSS
 
@@ -29,3 +33,5 @@ export default defineConfig({
   presets: [presetBase, astilbaPreset],
 });
 ```
+
+The static CSS and Panda preset expose the same semantic contract. Prefer semantic names such as `ink.default` and `surface.elevated` over raw palette values so consumers inherit theme changes.

@@ -22,7 +22,8 @@
     "pack:check": "pnpm --filter @astilba/tokens pack:check && pnpm --filter @astilba/ui pack:check",
     "test": "pnpm --recursive test",
     "typecheck": "pnpm --recursive typecheck",
-    "verify": "pnpm check && pnpm typecheck && pnpm test && pnpm knip && pnpm pack:check"
+    "verify": "pnpm check && pnpm typecheck && pnpm test && pnpm knip && pnpm pack:check",
+    "verify:release-version": "tsx scripts/verify-release-version.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

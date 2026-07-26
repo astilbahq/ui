@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef } from "react";
 
+import { control } from "../styled-system/recipes";
 import type { ControlAppearance, ControlSize } from "./button.js";
-import { control } from "./styles.js";
 
 export interface LinkButtonProps extends Omit<
   ComponentPropsWithoutRef<"a">,

@@ -2,7 +2,13 @@
 
 Accessible React controls for Astilba products, built with Base UI and statically extracted Panda CSS.
 
-The package is private while its first real consumer proves the contract.
+## Installation
+
+```sh
+pnpm add @astilba/ui @astilba/tokens
+```
+
+React and React DOM are peer dependencies.
 
 ## Usage
 
@@ -30,3 +36,5 @@ export const Actions = () => (
 ```
 
 Links remain native anchors. `Button` uses Base UI's button primitive and defaults to `type="button"`.
+
+The component stylesheet contains recipe defaults only. Consumer Panda utilities remain later in the `astilba` layer order and can override those defaults without specificity workarounds.
