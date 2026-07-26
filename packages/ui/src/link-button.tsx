@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef } from "react";
 
-import { control } from "../styled-system/recipes";
-import type { ControlAppearance, ControlSize } from "./button.js";
+import { controlClassName } from "./control.js";
+import type { ControlAppearance, ControlSize } from "./control.js";
 
 export interface LinkButtonProps extends Omit<
   ComponentPropsWithoutRef<"a">,
@@ -27,7 +27,10 @@ export const LinkButton = ({
 }: LinkButtonProps) => (
   <a
     {...properties}
-    className={classNames(control({ appearance, iconOnly, size }), className)}
+    className={classNames(
+      controlClassName({ appearance, iconOnly, size }),
+      className
+    )}
     href={href}
   />
 );

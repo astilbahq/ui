@@ -18,6 +18,11 @@ export default defineConfig({
         "react/jsx-runtime",
         "react-dom",
       ],
+      output: {
+        entryFileNames: "[name].js",
+        preserveModules: true,
+        preserveModulesRoot: fileURLToPath(new URL("src", import.meta.url)),
+      },
     },
     sourcemap: true,
   },

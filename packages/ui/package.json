@@ -1,6 +1,6 @@
 {
   "name": "@astilba/ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Accessible React components for Astilba products.",
   "homepage": "https://github.com/astilbahq/ui/tree/main/packages/ui#readme",
   "bugs": {
@@ -23,6 +23,22 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./button": {
+      "types": "./dist/button.d.ts",
+      "import": "./dist/button.js"
+    },
+    "./icon-button": {
+      "types": "./dist/icon-button.d.ts",
+      "import": "./dist/icon-button.js"
+    },
+    "./link-button": {
+      "types": "./dist/link-button.d.ts",
+      "import": "./dist/link-button.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip.d.ts",
+      "import": "./dist/tooltip.js"
     },
     "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json"

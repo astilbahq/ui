@@ -1,10 +1,10 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import type { ComponentPropsWithoutRef } from "react";
 
-import { control } from "../styled-system/recipes";
+import { controlClassName } from "./control.js";
+import type { ControlAppearance, ControlSize } from "./control.js";
 
-export type ControlAppearance = "ghost" | "outline" | "primary";
-export type ControlSize = "default" | "large";
+export type { ControlAppearance, ControlSize } from "./control.js";
 
 export interface ButtonProps extends Omit<
   ComponentPropsWithoutRef<typeof BaseButton>,
@@ -29,7 +29,10 @@ export const Button = ({
 }: ButtonProps) => (
   <BaseButton
     {...properties}
-    className={classNames(control({ appearance, iconOnly, size }), className)}
+    className={classNames(
+      controlClassName({ appearance, iconOnly, size }),
+      className
+    )}
     type={type}
   />
 );

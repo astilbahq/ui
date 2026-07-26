@@ -37,4 +37,13 @@ export const Actions = () => (
 
 Links remain native anchors. `Button` uses Base UI's button primitive and defaults to `type="button"`.
 
+Component subpaths are also available when a consumer needs the narrowest possible server or browser module graph:
+
+```tsx
+import { LinkButton } from "@astilba/ui/link-button";
+import { Tooltip, TooltipProvider } from "@astilba/ui/tooltip";
+```
+
+The root entry remains tree-shakeable. Component JavaScript contains no Panda runtime; Panda generates the static class contract and stylesheet at build time.
+
 The component stylesheet contains recipe defaults only. Consumer Panda utilities remain later in the `astilba` layer order and can override those defaults without specificity workarounds.
