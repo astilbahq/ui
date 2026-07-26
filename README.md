@@ -7,7 +7,7 @@ The repository contains two intentionally small packages:
 - `@astilba/tokens` — semantic CSS variables and a Panda CSS preset.
 - `@astilba/ui` — accessible React controls built with Base UI and static CSS.
 
-Both packages are public. The private showcase app is a visual test harness, not a separate documentation product.
+Both packages are public. The private showcase app is a visual test harness, not a separate documentation product. They are designed first for Astilba's own products while remaining available to other consumers that want the same interface contract.
 
 ## Packages
 
