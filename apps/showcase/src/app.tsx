@@ -241,7 +241,7 @@ export const App = () => {
       </main>
 
       <footer className="showcase-footer">
-        <p>Private test harness · packages remain unreleased</p>
+        <p>Private test harness · public packages</p>
         <p>Astilba interface foundation</p>
       </footer>
     </TooltipProvider>
