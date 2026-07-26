@@ -11,6 +11,13 @@ describe("compiled component CSS", () => {
     );
 
     expect(css).toContain(".astilba-control--size_large");
+    expect(css).toContain(".astilba-tooltip-popup");
+    expect(css).toContain(".astilba-tooltip-popup[data-starting-style]");
+    expect(css).toContain(".astilba-tooltip-popup[data-ending-style]");
+    expect(css).toContain("--astilba-durations-tooltip-close");
+    expect(css).toContain('.astilba-tooltip-labels[data-active="true"]');
+    expect(css).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(css).toContain("transition: none;");
     expect(css).toContain("@layer astilba.utilities");
     expect(css).not.toMatch(/--astilba-colors-[\w-]+\s*:/u);
   });
