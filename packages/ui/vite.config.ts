@@ -14,7 +14,10 @@ export default defineConfig({
       external: [
         "@base-ui/react/button",
         "@base-ui/react/collapsible",
+        "@base-ui/react/csp-provider",
+        "@base-ui/react/direction-provider",
         "@base-ui/react/menu",
+        "@base-ui/react/scroll-area",
         "@base-ui/react/tooltip",
         "react",
         "react/jsx-runtime",

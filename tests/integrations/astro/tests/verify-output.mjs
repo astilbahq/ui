@@ -11,6 +11,10 @@ const menuHtml = await readFile(
   new URL("menu/index.html", outputDirectory),
   "utf-8"
 );
+const scrollAreaHtml = await readFile(
+  new URL("scroll-area/index.html", outputDirectory),
+  "utf-8"
+);
 const hasClass = (element, className) =>
   element
     .match(/\bclass="(?<classes>[^"]*)"/u)
@@ -57,3 +61,14 @@ assert.match(
   /<astro-island\b(?=[^>]*\bclient="load")[^>]*>[\s\S]*?<button(?=[^>]*\btype="button")(?=[^>]*\baria-expanded="false")[^>]*>Deployment details<\/button>/u
 );
 assert.match(collapsibleHtml, /<script/u);
+
+assert.match(
+  scrollAreaHtml,
+  /<astro-island\b(?=[^>]*\bclient="load")[^>]*>[\s\S]*?\bclass="[^"]*\bastilba-scroll-area-root\b[^"]*"/u
+);
+assert.match(
+  scrollAreaHtml,
+  /\bclass="[^"]*\bastilba-scroll-area-viewport\b[^"]*"[^>]*\bdata-fade="block"/u
+);
+assert.doesNotMatch(scrollAreaHtml, /data-href="base-ui-disable-scrollbar"/u);
+assert.match(scrollAreaHtml, /<script/u);

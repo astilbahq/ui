@@ -149,6 +149,15 @@ Controls, elevated surfaces, and code blocks are square. Inline code is the narr
 - **Motion:** 250ms scale-and-fade entry and 150ms exit, removed under reduced-motion preferences.
 - **Ownership:** the primitive owns accessible menu behaviour and shared item structure; product-specific trigger appearance, widths, selected states, badges, and responsive density stay with the consumer.
 
+### Scroll Areas
+
+- **Feedback:** an optional block-axis fade reflects measured overflow at each edge.
+- **Scrollbar:** hidden at rest and revealed by root hover, focus within, or active scrolling.
+- **Focus:** the measured viewport joins the native tab order only while it can scroll and receives the shared signal outline.
+- **Direction:** roots default to left-to-right coordinates and opt into right-to-left coordinates explicitly.
+- **Accessibility:** reduced motion removes transitions; forced colours remove the mask and keep the scrollbar visible.
+- **Ownership:** the primitive owns overflow feedback and scrollbar interaction. Consumers own dimensions, content layout, overscroll policy, and position persistence.
+
 ## Do's and Don'ts
 
 ### Do:

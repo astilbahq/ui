@@ -4,6 +4,7 @@ import {
   IconButton,
   LinkButton,
   Menu,
+  ScrollArea,
   Tooltip,
   TooltipProvider,
 } from "@astilba/ui";
@@ -336,6 +337,98 @@ export const App = () => {
           </div>
         </section>
 
+        <section className="specimen-section" aria-labelledby="scroll-title">
+          <div className="section-heading">
+            <div>
+              <p>05</p>
+              <h2 id="scroll-title">Scroll areas</h2>
+            </div>
+            <code>ScrollArea</code>
+          </div>
+
+          <div className="specimen-row">
+            <div>
+              <h3>Overflow in context</h3>
+              <p>
+                Edge fades explain position while the quiet scrollbar appears
+                for pointer, keyboard, and active scrolling.
+              </p>
+            </div>
+            <ScrollArea.Root
+              className="showcase-scroll-area"
+              data-testid="vertical-scroll-area"
+            >
+              <ScrollArea.Viewport
+                className="showcase-scroll-area-viewport"
+                data-testid="vertical-scroll-viewport"
+                fade="block"
+              >
+                <ScrollArea.Content className="showcase-scroll-area-content">
+                  {[
+                    "Prepare release",
+                    "Verify artifact",
+                    "Publish package",
+                    "Confirm provenance",
+                    "Deploy consumer",
+                    "Run smoke checks",
+                    "Observe production",
+                    "Record outcome",
+                  ].map((step, index) => (
+                    <a href={`#scroll-step-${index + 1}`} key={step}>
+                      <span>{String(index + 1).padStart(2, "0")}</span>
+                      {step}
+                    </a>
+                  ))}
+                </ScrollArea.Content>
+              </ScrollArea.Viewport>
+              <ScrollArea.Scrollbar data-testid="vertical-scrollbar">
+                <ScrollArea.Thumb />
+              </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+          </div>
+
+          <div className="specimen-row">
+            <div>
+              <h3>Either axis</h3>
+              <p>
+                The same primitive supports wide content without changing its
+                native scroll behaviour.
+              </p>
+            </div>
+            <ScrollArea.Root
+              className="showcase-scroll-area showcase-scroll-area--horizontal"
+              data-testid="horizontal-scroll-area"
+              direction="rtl"
+            >
+              <ScrollArea.Viewport
+                className="showcase-scroll-area-viewport"
+                data-testid="horizontal-scroll-viewport"
+              >
+                <ScrollArea.Content
+                  className="showcase-scroll-area-strip"
+                  dir="ltr"
+                >
+                  {[
+                    "Node",
+                    "Bun",
+                    "Cloudflare Workers",
+                    "React Router",
+                    "Hono",
+                  ].map((runtime) => (
+                    <span key={runtime}>{runtime}</span>
+                  ))}
+                </ScrollArea.Content>
+              </ScrollArea.Viewport>
+              <ScrollArea.Scrollbar
+                data-testid="horizontal-scrollbar"
+                orientation="horizontal"
+              >
+                <ScrollArea.Thumb />
+              </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+          </div>
+        </section>
+
         <section
           className="specimen-section token-section"
           id="tokens"
@@ -343,7 +436,7 @@ export const App = () => {
         >
           <div className="section-heading">
             <div>
-              <p>05</p>
+              <p>06</p>
               <h2 id="tokens-title">Semantic base</h2>
             </div>
             <code>@astilba/tokens</code>

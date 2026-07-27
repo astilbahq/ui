@@ -37,6 +37,23 @@ export {
   type MenuTriggerProps,
 } from "./menu.js";
 export {
+  ScrollArea,
+  ScrollAreaContent,
+  type ScrollAreaContentProps,
+  ScrollAreaCorner,
+  type ScrollAreaCornerProps,
+  type ScrollAreaDirection,
+  type ScrollAreaFade,
+  ScrollAreaRoot,
+  type ScrollAreaRootProps,
+  ScrollAreaScrollbar,
+  type ScrollAreaScrollbarProps,
+  ScrollAreaThumb,
+  type ScrollAreaThumbProps,
+  ScrollAreaViewport,
+  type ScrollAreaViewportProps,
+} from "./scroll-area.js";
+export {
   Tooltip,
   type TooltipProps,
   TooltipProvider,
