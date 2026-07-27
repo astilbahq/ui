@@ -1,12 +1,15 @@
 import {
   Button,
   Collapsible,
+  Field,
   IconButton,
+  Input,
   LinkButton,
   Menu,
   ScrollArea,
   Tooltip,
   TooltipProvider,
+  Textarea,
 } from "@astilba/ui";
 import {
   ArrowRight,
@@ -429,6 +432,90 @@ export const App = () => {
           </div>
         </section>
 
+        <section className="specimen-section" aria-labelledby="fields-title">
+          <div className="section-heading">
+            <div>
+              <p>06</p>
+              <h2 id="fields-title">Form fields</h2>
+            </div>
+            <code>Field · Input · Textarea</code>
+          </div>
+
+          <div className="specimen-row">
+            <div>
+              <h3>Guidance in place</h3>
+              <p>
+                Labels and supporting copy stay attached to the control they
+                explain.
+              </p>
+            </div>
+            <div className="showcase-form-stack">
+              <Field.Root>
+                <Field.Label htmlFor="showcase-project">
+                  Project name
+                </Field.Label>
+                <Input
+                  aria-describedby="showcase-project-help"
+                  defaultValue="astilba-app"
+                  id="showcase-project"
+                  name="showcaseProject"
+                />
+                <Field.Description id="showcase-project-help">
+                  Used for the package and repository name.
+                </Field.Description>
+              </Field.Root>
+              <Field.Root>
+                <Field.Label htmlFor="showcase-description">
+                  Description
+                </Field.Label>
+                <Textarea
+                  defaultValue="A focused TypeScript project."
+                  id="showcase-description"
+                  name="showcaseDescription"
+                  rows={3}
+                />
+              </Field.Root>
+            </div>
+          </div>
+
+          <div className="specimen-row">
+            <div>
+              <h3>Clear recovery</h3>
+              <p>
+                Invalid and unavailable fields explain state without changing
+                the layout.
+              </p>
+            </div>
+            <div className="showcase-form-stack">
+              <Field.Root data-invalid="">
+                <Field.Label htmlFor="showcase-owner">GitHub owner</Field.Label>
+                <Input
+                  aria-describedby="showcase-owner-error"
+                  aria-invalid="true"
+                  defaultValue="invalid--owner"
+                  data-testid="invalid-input"
+                  id="showcase-owner"
+                  name="showcaseOwner"
+                />
+                <Field.Error id="showcase-owner-error">
+                  Use a valid GitHub account name.
+                </Field.Error>
+              </Field.Root>
+              <Field.Root>
+                <Field.Label htmlFor="showcase-disabled">
+                  Generated identifier
+                </Field.Label>
+                <Input
+                  defaultValue="Assigned after creation"
+                  disabled
+                  id="showcase-disabled"
+                  name="showcaseDisabled"
+                />
+              </Field.Root>
+            </div>
+          </div>
+        </section>
+
         <section
           className="specimen-section token-section"
           id="tokens"
@@ -436,7 +523,7 @@ export const App = () => {
         >
           <div className="section-heading">
             <div>
-              <p>06</p>
+              <p>07</p>
               <h2 id="tokens-title">Semantic base</h2>
             </div>
             <code>@astilba/tokens</code>

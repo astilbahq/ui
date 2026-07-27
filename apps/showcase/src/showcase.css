@@ -343,6 +343,12 @@ main,
   white-space: nowrap;
 }
 
+.showcase-form-stack {
+  display: grid;
+  gap: 1.5rem;
+  inline-size: min(100%, 28rem);
+}
+
 .token-section {
   margin-block-end: 6rem;
 }

@@ -95,9 +95,9 @@ Dark mode is the default; light mode is activated with `data-theme="light"` on t
 
 - **Display Font:** Inter Variable with a system sans-serif fallback
 - **Body Font:** Geist Variable with a system sans-serif fallback
-- **Label/Mono Font:** JetBrains Mono Variable with a system monospace fallback
+- **Monospace Font:** JetBrains Mono Variable with a system monospace fallback
 
-The package supplies families and weights as tokens, not a global typographic scale. Controls use the body family at `0.8125rem`, weight 500, and line-height 1. Consumers choose their own reading and display hierarchy.
+The package supplies families and weights as tokens, not a global typographic scale. Compact controls and labels use the body family; labels are `0.8125rem` at weight 500, while text-entry controls are `0.875rem` at weight 400. Consumers choose their own reading and display hierarchy.
 
 ## Layout
 
@@ -157,6 +157,15 @@ Controls, elevated surfaces, and code blocks are square. Inline code is the narr
 - **Direction:** roots default to left-to-right coordinates and opt into right-to-left coordinates explicitly.
 - **Accessibility:** reduced motion removes transitions; forced colours remove the mask and keep the scrollbar visible.
 - **Ownership:** the primitive owns overflow feedback and scrollbar interaction. Consumers own dimensions, content layout, overscroll policy, and position persistence.
+
+### Form Fields
+
+- **Structure:** labels, descriptions, errors, inputs, and textareas are thin native wrappers rather than an application form framework.
+- **Sizing:** text inputs are 44px high; textareas begin at 112px and resize along the block axis.
+- **Associations:** consumers provide stable IDs, `htmlFor`, and `aria-describedby`; errors may stay mounted, but their ID joins `aria-describedby` only while active.
+- **States:** semantic field borders and surfaces cover rest, hover, focus, invalid, readonly, disabled, placeholder, and browser autofill.
+- **Accessibility:** native submission, reset, constraint validation, label activation, and forced-colour adaptation remain intact.
+- **Ownership:** consumers own validation rules, form state, submission, field layout, and error timing.
 
 ## Do's and Don'ts
 

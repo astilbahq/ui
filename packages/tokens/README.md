@@ -34,4 +34,4 @@ export default defineConfig({
 });
 ```
 
-The static CSS and Panda preset expose the same semantic contract. Prefer semantic names such as `ink.default` and `surface.elevated` over raw palette values so consumers inherit theme changes.
+The static CSS and Panda preset expose the same semantic contract. Prefer semantic names such as `ink.default`, `surface.elevated`, `surface.field`, and `border.field` over raw palette values so consumers inherit theme changes.

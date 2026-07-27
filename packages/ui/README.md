@@ -1,6 +1,6 @@
 # `@astilba/ui`
 
-Accessible React controls for Astilba products, built with Base UI and statically extracted Panda CSS.
+Accessible React controls for Astilba products, built with native semantics, Base UI where behaviour warrants it, and statically extracted Panda CSS.
 
 ## Installation
 
@@ -25,9 +25,12 @@ Then use the components from React:
 import {
   Button,
   Collapsible,
+  Field,
+  Input,
   LinkButton,
   Menu,
   ScrollArea,
+  Textarea,
   Tooltip,
   TooltipProvider,
 } from "@astilba/ui";
@@ -64,6 +67,21 @@ export const Actions = () => (
         <ScrollArea.Thumb />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
+    <Field.Root>
+      <Field.Label htmlFor="project-name">Project name</Field.Label>
+      <Input
+        aria-describedby="project-name-help"
+        id="project-name"
+        name="projectName"
+      />
+      <Field.Description id="project-name-help">
+        Used for the package and repository name.
+      </Field.Description>
+    </Field.Root>
+    <Field.Root>
+      <Field.Label htmlFor="project-description">Description</Field.Label>
+      <Textarea id="project-description" name="description" rows={3} />
+    </Field.Root>
   </TooltipProvider>
 );
 ```
@@ -75,8 +93,11 @@ Component subpaths are also available when a consumer needs the narrowest possib
 ```tsx
 import { LinkButton } from "@astilba/ui/link-button";
 import { Collapsible } from "@astilba/ui/collapsible";
+import { Field } from "@astilba/ui/field";
+import { Input } from "@astilba/ui/input";
 import { Menu } from "@astilba/ui/menu";
 import { ScrollArea } from "@astilba/ui/scroll-area";
+import { Textarea } from "@astilba/ui/textarea";
 import { Tooltip, TooltipProvider } from "@astilba/ui/tooltip";
 ```
 
@@ -87,6 +108,8 @@ The component stylesheet contains recipe defaults only. Consumer Panda utilities
 `Collapsible.Panel` owns only the disclosure transition. Consumers retain their own trigger presentation, content layout, chevrons, and state persistence. Set the panel transition to `none` in a consumer class while restoring persisted state to avoid animating initialization. Keep padding and borders on a child of the measured panel so its closed block size can reach zero cleanly.
 
 `ScrollArea` owns overflow-edge feedback, focus treatment, and a scrollbar that appears on hover, focus, or active scrolling. Pass `fade="block"` to `ScrollArea.Viewport` for a vertical edge fade, and set `direction="rtl"` on `ScrollArea.Root` when the scroll coordinates follow right-to-left reading order. Consumers retain sizing, content layout, overscroll policy, and scroll-position persistence. Include `ScrollArea.Content` whenever horizontal overflow is possible.
+
+`Field`, `Input`, and `Textarea` are intentionally native form wrappers. Give every control a stable `id`, connect its label with `htmlFor`, and list persistent guidance in `aria-describedby`. Error elements may stay mounted, but keep them hidden and omit their ID from `aria-describedby` until the error is active; hidden referenced text still contributes to the accessible description. Product code retains validation, form state, layout, and submission behaviour.
 
 ## Astro
 
@@ -99,6 +122,29 @@ import { LinkButton } from "@astilba/ui/link-button";
 
 <LinkButton href="/docs">Read the docs</LinkButton>
 ```
+
+Fields can live in a server-rendered React wrapper when that keeps a larger Astro template easier to read:
+
+```tsx
+import { Field } from "@astilba/ui/field";
+import { Input } from "@astilba/ui/input";
+
+export const ProjectNameField = () => (
+  <Field.Root>
+    <Field.Label htmlFor="project-name">Project name</Field.Label>
+    <Input
+      aria-describedby="project-name-help"
+      id="project-name"
+      name="projectName"
+    />
+    <Field.Description id="project-name-help">
+      Used for the package and repository name.
+    </Field.Description>
+  </Field.Root>
+);
+```
+
+This wrapper still renders as static HTML and needs no client directive. Because these field components are native and context-free, consumers may also import their named parts and place them directly in an `.astro` template.
 
 Add an Astro client directive when a component needs React-managed browser behaviour, including state, event handlers, effects, context, or an interactive primitive such as `Menu`, `ScrollArea`, or `Tooltip`. `ScrollArea` needs hydration before it can measure overflow, update edge signals, and position its thumb. Server-rendered controls can also be enhanced by a separate Astro or vanilla browser script without hydrating React.
 
