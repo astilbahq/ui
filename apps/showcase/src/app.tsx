@@ -2,10 +2,19 @@ import {
   Button,
   IconButton,
   LinkButton,
+  Menu,
   Tooltip,
   TooltipProvider,
 } from "@astilba/ui";
-import { ArrowRight, Check, Copy, Moon, Sun } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Copy,
+  ExternalLink,
+  Moon,
+  Sun,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 type Theme = "dark" | "light";
@@ -17,6 +26,7 @@ const ControlArrow = () => (
 
 export const App = () => {
   const [copied, setCopied] = useState(false);
+  const [menuAction, setMenuAction] = useState("No action selected");
   const [theme, setTheme] = useState<Theme>("dark");
   const copyResetTimer = useRef<number | null>(null);
 
@@ -216,6 +226,75 @@ export const App = () => {
           </div>
         </section>
 
+        <section className="specimen-section" aria-labelledby="menus-title">
+          <div className="section-heading">
+            <div>
+              <p>03</p>
+              <h2 id="menus-title">Menus</h2>
+            </div>
+            <code>Menu</code>
+          </div>
+
+          <div className="specimen-row">
+            <div>
+              <h3>Actions and navigation</h3>
+              <p>
+                Pointer hover stays quiet while keyboard movement receives an
+                unmistakable focus signal.
+              </p>
+            </div>
+            <div>
+              <div className="control-line">
+                <Menu.Root>
+                  <Menu.Trigger className="showcase-menu-trigger">
+                    More actions
+                    <ChevronDown
+                      aria-hidden="true"
+                      size={14}
+                      strokeWidth={1.5}
+                    />
+                  </Menu.Trigger>
+                  <Menu.Portal>
+                    <Menu.Positioner>
+                      <Menu.Popup className="showcase-menu-popup">
+                        <Menu.Item
+                          label="Update project"
+                          onClick={() => {
+                            setMenuAction("Project updated");
+                          }}
+                        >
+                          <Menu.ItemLabel>Update project</Menu.ItemLabel>
+                        </Menu.Item>
+                        <Menu.Item
+                          closeOnClick={false}
+                          label="Keep menu open"
+                          onClick={() => {
+                            setMenuAction("Menu kept open");
+                          }}
+                        >
+                          <Menu.ItemLabel>Keep menu open</Menu.ItemLabel>
+                        </Menu.Item>
+                        <Menu.Item disabled label="Archived action">
+                          <Menu.ItemLabel>Archived action</Menu.ItemLabel>
+                        </Menu.Item>
+                        <Menu.LinkItem href="#tokens" label="View tokens">
+                          <Menu.ItemLabel>View tokens</Menu.ItemLabel>
+                          <Menu.ItemTrailing aria-hidden="true">
+                            <ExternalLink size={12} strokeWidth={1.5} />
+                          </Menu.ItemTrailing>
+                        </Menu.LinkItem>
+                      </Menu.Popup>
+                    </Menu.Positioner>
+                  </Menu.Portal>
+                </Menu.Root>
+              </div>
+              <p className="showcase-status" aria-live="polite">
+                {menuAction}
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section
           className="specimen-section token-section"
           id="tokens"
@@ -223,7 +302,7 @@ export const App = () => {
         >
           <div className="section-heading">
             <div>
-              <p>03</p>
+              <p>04</p>
               <h2 id="tokens-title">Semantic base</h2>
             </div>
             <code>@astilba/tokens</code>

@@ -14,6 +14,12 @@ const analyzeWcag = (page: Page) =>
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
     .analyze();
 
+const analyzeOpenMenuWcag = (page: Page) =>
+  new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .exclude("[data-base-ui-focus-guard]")
+    .analyze();
+
 test("renders the control contract in both themes", async ({ page }) => {
   await openShowcase(page);
 
@@ -99,6 +105,95 @@ test("preserves hover, focus, disabled, and tooltip states", async ({
   await expect(tooltip).toHaveCSS("transition-duration", "0.15s");
 });
 
+test("preserves menu pointer, keyboard, action, and link contracts", async ({
+  page,
+}) => {
+  await openShowcase(page);
+
+  const trigger = page.getByRole("button", { name: "More actions" });
+  await trigger.click();
+  const menu = page.getByRole("menu");
+  await expect(menu).toBeVisible();
+  await expect(menu).toHaveCSS("transition-duration", "0.25s");
+  await expect(menu).toHaveCSS("border-radius", "0px");
+
+  const updateItem = page.getByRole("menuitem", { name: "Update project" });
+  await updateItem.hover();
+  await expect(updateItem).toHaveAttribute("data-highlighted");
+  await expect(updateItem).toHaveCSS(
+    "background-color",
+    "rgba(255, 255, 255, 0.06)"
+  );
+  await expect(updateItem).toHaveCSS("outline-style", "none");
+  await expect(updateItem).toHaveCSS("line-height", "13px");
+
+  await page.keyboard.press("Escape");
+  await expect(trigger).toBeFocused();
+  await page.keyboard.press("ArrowDown");
+  await expect(updateItem).toHaveAttribute("data-highlighted");
+  await expect(updateItem).toHaveCSS("outline-color", "oklch(0.72 0.17 32)");
+  await expect(updateItem).toHaveCSS("outline-width", "2px");
+
+  const persistentItem = page.getByRole("menuitem", {
+    name: "Keep menu open",
+  });
+  await persistentItem.hover();
+  await expect(persistentItem).toHaveAttribute("data-highlighted");
+  await expect(persistentItem).toHaveCSS("outline-style", "none");
+  await persistentItem.click();
+  await expect(menu).toBeVisible();
+  await expect(persistentItem).toHaveCSS("outline-style", "none");
+  await expect(page.getByText("Menu kept open")).toBeVisible();
+
+  const disabledItem = page.getByRole("menuitem", {
+    name: "Archived action",
+  });
+  await expect(disabledItem).toHaveAttribute("aria-disabled", "true");
+  const tokensLink = page.getByRole("menuitem", { name: "View tokens" });
+  await expect(tokensLink).toHaveAttribute("href", "#tokens");
+
+  await updateItem.click();
+  await expect(menu).toBeHidden();
+  await expect(page.getByText("Project updated")).toBeVisible();
+
+  await trigger.click();
+  await tokensLink.click();
+  await expect(menu).toBeHidden();
+  await expect(page).toHaveURL(/#tokens$/u);
+});
+
+test("renders the menu surface in both themes", async ({ page }) => {
+  await openShowcase(page);
+
+  const trigger = page.getByRole("button", { name: "More actions" });
+  await trigger.click();
+  const menu = page.getByRole("menu");
+  await expect(menu).toHaveScreenshot("menu-dark.png");
+
+  await page.keyboard.press("Escape");
+  const header = page.locator(".showcase-header");
+  await header.getByRole("button", { name: "Use light theme" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+  await trigger.click();
+  await expect(menu).toHaveScreenshot("menu-light.png");
+});
+
+test("keeps outside controls actionable while the menu is open", async ({
+  page,
+}) => {
+  await openShowcase(page);
+
+  await page.getByRole("button", { name: "More actions" }).click();
+  await expect(page.getByRole("menu")).toBeVisible();
+
+  const header = page.locator(".showcase-header");
+  await header.getByRole("button", { name: "Use light theme" }).click();
+
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.getByRole("menu")).toBeHidden();
+});
+
 test("removes tooltip motion when reduced motion is requested", async ({
   page,
 }) => {
@@ -110,6 +205,9 @@ test("removes tooltip motion when reduced motion is requested", async ({
     "transition-duration",
     "0s"
   );
+
+  await page.getByRole("button", { name: "More actions" }).click();
+  await expect(page.getByRole("menu")).toHaveCSS("transition-duration", "0s");
 });
 
 test("has no detectable accessibility violations in either theme", async ({
@@ -120,6 +218,12 @@ test("has no detectable accessibility violations in either theme", async ({
   const darkResults = await analyzeWcag(page);
   expect(darkResults.violations).toEqual([]);
 
+  await page.getByRole("button", { name: "More actions" }).click();
+  await page.waitForTimeout(300);
+  const darkMenuResults = await analyzeOpenMenuWcag(page);
+  expect(darkMenuResults.violations).toEqual([]);
+  await page.keyboard.press("Escape");
+
   await page.getByRole("button", { name: "Use light theme" }).first().click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await expect(page.getByRole("button", { name: "Dismiss" })).toHaveCSS(
@@ -129,6 +233,11 @@ test("has no detectable accessibility violations in either theme", async ({
 
   const lightResults = await analyzeWcag(page);
   expect(lightResults.violations).toEqual([]);
+
+  await page.getByRole("button", { name: "More actions" }).click();
+  await page.waitForTimeout(300);
+  const lightMenuResults = await analyzeOpenMenuWcag(page);
+  expect(lightMenuResults.violations).toEqual([]);
 });
 
 test("keeps the showcase within a narrow viewport", async ({ page }) => {
@@ -141,4 +250,12 @@ test("keeps the showcase within a narrow viewport", async ({ page }) => {
   }));
 
   expect(dimensions.scrollWidth).toBe(dimensions.clientWidth);
+
+  await page.getByRole("button", { name: "More actions" }).click();
+  const menuBounds = await page.getByRole("menu").boundingBox();
+  expect(menuBounds).not.toBeNull();
+  expect(menuBounds?.x ?? -1).toBeGreaterThanOrEqual(0);
+  expect((menuBounds?.x ?? 0) + (menuBounds?.width ?? 0)).toBeLessThanOrEqual(
+    320
+  );
 });

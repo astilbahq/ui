@@ -16,6 +16,11 @@ describe("compiled component CSS", () => {
     expect(css).toContain(".astilba-tooltip-popup[data-ending-style]");
     expect(css).toContain("--astilba-durations-tooltip-close");
     expect(css).toContain('.astilba-tooltip-labels[data-active="true"]');
+    expect(css).toContain(".astilba-menu-popup[data-starting-style]");
+    expect(css).toContain(".astilba-menu-popup[data-ending-style]");
+    expect(css).toContain("--astilba-durations-menu-open");
+    expect(css).toContain("--astilba-durations-menu-close");
+    expect(css).toContain(".astilba-menu-item[data-highlighted]");
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");
     expect(css).toContain("transition: none;");
     expect(css).toContain("@layer astilba.utilities");

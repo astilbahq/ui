@@ -22,7 +22,13 @@ import "@astilba/ui/styles.css";
 Then use the components from React:
 
 ```tsx
-import { Button, LinkButton, Tooltip, TooltipProvider } from "@astilba/ui";
+import {
+  Button,
+  LinkButton,
+  Menu,
+  Tooltip,
+  TooltipProvider,
+} from "@astilba/ui";
 
 export const Actions = () => (
   <TooltipProvider>
@@ -31,6 +37,19 @@ export const Actions = () => (
     <Tooltip label="More information">
       <Button>Details</Button>
     </Tooltip>
+    <Menu.Root>
+      <Menu.Trigger>More actions</Menu.Trigger>
+      <Menu.Portal>
+        <Menu.Positioner>
+          <Menu.Popup>
+            <Menu.Item label="Refresh">Refresh</Menu.Item>
+            <Menu.LinkItem href="/docs" label="Read the docs">
+              Read the docs
+            </Menu.LinkItem>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
   </TooltipProvider>
 );
 ```
@@ -41,6 +60,7 @@ Component subpaths are also available when a consumer needs the narrowest possib
 
 ```tsx
 import { LinkButton } from "@astilba/ui/link-button";
+import { Menu } from "@astilba/ui/menu";
 import { Tooltip, TooltipProvider } from "@astilba/ui/tooltip";
 ```
 
@@ -60,7 +80,7 @@ import { LinkButton } from "@astilba/ui/link-button";
 <LinkButton href="/docs">Read the docs</LinkButton>
 ```
 
-Add an Astro client directive when a component needs React-managed browser behaviour, including state, event handlers, effects, context, or an interactive primitive such as `Tooltip`. Server-rendered controls can also be enhanced by a separate Astro or vanilla browser script without hydrating React.
+Add an Astro client directive when a component needs React-managed browser behaviour, including state, event handlers, effects, context, or an interactive primitive such as `Menu` or `Tooltip`. Server-rendered controls can also be enhanced by a separate Astro or vanilla browser script without hydrating React.
 
 ## Compatibility
 

@@ -13,6 +13,7 @@ export default defineConfig({
     rollupOptions: {
       external: [
         "@base-ui/react/button",
+        "@base-ui/react/menu",
         "@base-ui/react/tooltip",
         "react",
         "react/jsx-runtime",

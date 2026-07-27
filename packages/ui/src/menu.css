@@ -1,0 +1,105 @@
+@layer astilba.recipes {
+  .astilba-menu-positioner {
+    z-index: var(--astilba-menu-z-index, 1000);
+    max-inline-size: calc(100vi - 1rem);
+  }
+
+  .astilba-menu-popup {
+    box-sizing: border-box;
+    max-block-size: min(var(--available-height), 24rem);
+    overflow-block: auto;
+    border: 0;
+    border-radius: 0;
+    padding: var(--astilba-spacing-menu-inset);
+    background: var(--astilba-colors-surface-elevated);
+    box-shadow: var(--astilba-shadows-elevated);
+    color: var(--astilba-colors-ink-default);
+    outline: 0;
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: var(--transform-origin);
+    transition-duration: var(--astilba-durations-menu-open);
+    transition-property: opacity, transform;
+    transition-timing-function: var(--astilba-easings-out-quint);
+    will-change: opacity, transform;
+  }
+
+  .astilba-menu-popup[data-starting-style] {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  .astilba-menu-popup[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.99);
+    transition-duration: var(--astilba-durations-menu-close);
+  }
+
+  .astilba-menu-item {
+    display: flex;
+    min-block-size: 2.5rem;
+    align-items: center;
+    gap: 0.625rem;
+    border: 0;
+    border-radius: 0;
+    padding-block: 0.5rem;
+    padding-inline: 0.75rem;
+    background: transparent;
+    color: var(--astilba-colors-ink-default);
+    cursor: pointer;
+    font-family: var(--astilba-fonts-body);
+    font-size: 0.8125rem;
+    font-weight: var(--astilba-font-weights-regular);
+    line-height: 1;
+    text-align: start;
+    text-decoration: none;
+    outline: 0;
+  }
+
+  .astilba-menu-item:is(:hover, [data-highlighted]):not([data-disabled]) {
+    background: var(--astilba-colors-surface-highlight);
+    color: var(--astilba-colors-ink-strong);
+  }
+
+  .astilba-menu-popup[data-input-modality="keyboard"]
+    .astilba-menu-item[data-highlighted] {
+    outline-color: var(--astilba-colors-signal);
+    outline-offset: -0.125rem;
+    outline-style: solid;
+    outline-width: 0.125rem;
+  }
+
+  .astilba-menu-item[data-disabled] {
+    color: var(--astilba-colors-ink-muted);
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  .astilba-menu-item-label {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .astilba-menu-item-trailing {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.625rem;
+    margin-inline-start: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .astilba-menu-popup {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .astilba-menu-popup[data-input-modality="keyboard"]
+      .astilba-menu-item[data-highlighted] {
+      outline-color: Highlight;
+    }
+  }
+}

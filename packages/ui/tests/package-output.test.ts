@@ -32,15 +32,19 @@ describe("published JavaScript output", () => {
   });
 
   it("isolates Base UI primitives by component", async () => {
-    const [button, linkButton, tooltip] = await Promise.all([
+    const [button, linkButton, menu, tooltip] = await Promise.all([
       readOutput("button.js"),
       readOutput("link-button.js"),
+      readOutput("menu.js"),
       readOutput("tooltip.js"),
     ]);
 
     expect(button).toContain("@base-ui/react/button");
     expect(button).not.toContain("@base-ui/react/tooltip");
     expect(linkButton).not.toContain("@base-ui/react");
+    expect(menu).toContain("@base-ui/react/menu");
+    expect(menu).not.toContain("@base-ui/react/button");
+    expect(menu).not.toContain("@base-ui/react/tooltip");
     expect(tooltip).toContain("@base-ui/react/tooltip");
     expect(tooltip).not.toContain("@base-ui/react/button");
   });
