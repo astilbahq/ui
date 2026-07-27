@@ -10,6 +10,8 @@
 4. Confirm the `Release` workflow verifies and publishes both packages.
 5. Verify the registry versions, provenance attestations, and a clean consumer install.
 
+If a published release fails, never delete, move, recreate, or reuse its tag or version. Fix the failure through a pull request, advance both packages to the next shared version, and publish a new release from the verified `main` commit.
+
 The npm environment and trusted-publisher configuration authorize only `.github/workflows/release.yml` in `astilbahq/ui`. The publish job runs on a GitHub-hosted runner with an OIDC identity and no long-lived npm credential.
 
 The first public release is the only exception: npm requires a package to exist before trusted publishing can be configured. Bootstrap it with the least-privilege temporary npm credential that can create both packages. Store the credential only as a protected `npm` environment secret; never commit or print it. Once both packages exist, configure trusted publishing, disallow token publishing, delete the environment secret, and revoke the credential immediately.
