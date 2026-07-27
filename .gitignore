@@ -2,9 +2,12 @@
 .env
 .env.*
 !.env.example
+.astro/
 .pnpm-store/
 coverage/
 dist/
 node_modules/
+playwright-report/
 styled-system/
+test-results/
 worker-configuration.d.ts

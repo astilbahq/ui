@@ -123,10 +123,32 @@ export const App = () => {
               <p>Disabled controls remain legible without suggesting action.</p>
             </div>
             <div className="control-line">
+              <Button appearance="primary" disabled>
+                Not available
+              </Button>
               <Button disabled>Not available</Button>
               <Button appearance="outline" disabled>
                 Not available
               </Button>
+            </div>
+          </div>
+
+          <div className="specimen-row">
+            <div>
+              <h3>Scale</h3>
+              <p>
+                Large controls keep the same hierarchy with a roomier
+                interaction target.
+              </p>
+            </div>
+            <div className="control-line">
+              <Button appearance="primary" size="large">
+                Continue large
+                <ControlArrow />
+              </Button>
+              <IconButton label="Large icon control" size="large">
+                <Sun aria-hidden="true" size={18} strokeWidth={1.5} />
+              </IconButton>
             </div>
           </div>
         </section>

@@ -1,0 +1,26 @@
+---
+import { Button } from "@astilba/ui/button";
+import { IconButton } from "@astilba/ui/icon-button";
+import { LinkButton } from "@astilba/ui/link-button";
+import "@astilba/tokens/css";
+import "@astilba/ui/styles.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Astilba UI Astro integration</title>
+  </head>
+  <body>
+    <main>
+      <h1>Astro server-rendering fixture</h1>
+      <Button appearance="primary">Continue</Button>
+      <LinkButton href="/docs">Read the docs</LinkButton>
+      <IconButton label="More information">
+        <span aria-hidden="true">i</span>
+      </IconButton>
+    </main>
+  </body>
+</html>
