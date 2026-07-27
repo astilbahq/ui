@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "astilba-ui-showcase",
+  "compatibility_date": "2026-07-27",
+  "workers_dev": false,
+  "assets": {
+    "directory": "./apps/showcase/dist",
+  },
+  "routes": [
+    {
+      "pattern": "ui.astilba.com",
+      "custom_domain": true,
+    },
+  ],
+}

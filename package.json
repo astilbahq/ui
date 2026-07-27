@@ -16,10 +16,13 @@
   "scripts": {
     "build": "pnpm --filter @astilba/tokens build && pnpm --filter @astilba/ui build && pnpm --filter @astilba/showcase build && pnpm --filter @astilba/integration-astro build",
     "check": "ultracite check",
+    "deploy": "wrangler deploy",
+    "deploy:dry-run": "pnpm --filter @astilba/showcase build && wrangler deploy --dry-run",
     "dev": "pnpm --filter @astilba/tokens build && pnpm --filter @astilba/ui build && pnpm --filter @astilba/showcase dev",
     "fix": "ultracite fix",
     "knip": "knip",
     "pack:check": "pnpm --filter @astilba/tokens pack:check && pnpm --filter @astilba/ui pack:check",
+    "smoke:production": "node scripts/smoke-production.mjs",
     "test": "pnpm --recursive test",
     "test:astro": "pnpm --filter @astilba/tokens build && pnpm --filter @astilba/ui build && pnpm --filter @astilba/integration-astro test",
     "test:browser": "pnpm build && pnpm test:browser:run",
@@ -28,7 +31,7 @@
     "test:browser:run": "playwright test",
     "test:browser:update": "pnpm build && playwright test --update-snapshots",
     "typecheck": "pnpm --recursive typecheck",
-    "verify": "pnpm verify:base && pnpm test:browser",
+    "verify": "pnpm verify:base && pnpm test:browser && pnpm deploy:dry-run",
     "verify:base": "pnpm check && pnpm typecheck && pnpm test && pnpm knip && pnpm pack:check",
     "verify:release-version": "tsx scripts/verify-release-version.ts"
   },
@@ -43,7 +46,8 @@
     "publint": "0.3.21",
     "tsx": "4.23.1",
     "typescript": "6.0.3",
-    "ultracite": "7.9.4"
+    "ultracite": "7.9.4",
+    "wrangler": "4.114.0"
   },
   "engines": {
     "node": ">=22.18.0",

@@ -57,7 +57,11 @@ export const App = () => {
       </a>
 
       <header className="showcase-header">
-        <a className="showcase-brand" href="/" aria-label="Astilba Interface">
+        <a
+          className="showcase-brand"
+          href="https://astilba.com/"
+          aria-label="Astilba home"
+        >
           <span>Astilba</span>
           <span aria-hidden="true">/</span>
           <span>Interface</span>

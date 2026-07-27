@@ -70,4 +70,12 @@ describe("showcase", () => {
     expect(skipLink.getAttribute("href")).toBe("#specimens");
     expect(destination?.getAttribute("tabindex")).toBe("-1");
   });
+
+  it("links the showcase brand back to Astilba", () => {
+    render(<App />);
+
+    expect(
+      screen.getByRole("link", { name: "Astilba home" }).getAttribute("href")
+    ).toBe("https://astilba.com/");
+  });
 });
