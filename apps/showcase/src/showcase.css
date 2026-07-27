@@ -277,6 +277,72 @@ main,
   font-size: 0.8125rem;
 }
 
+.showcase-scroll-area {
+  block-size: 12rem;
+  inline-size: min(100%, 24rem);
+  border-block: 1px solid var(--astilba-colors-border);
+}
+
+.showcase-scroll-area--horizontal {
+  block-size: 5rem;
+}
+
+.showcase-scroll-area-viewport {
+  overscroll-behavior: contain;
+}
+
+.showcase-scroll-area-content {
+  display: grid;
+  min-block-size: 100%;
+  padding-block: 0.5rem;
+}
+
+.showcase-scroll-area-content a {
+  display: grid;
+  min-block-size: 2.5rem;
+  grid-template-columns: 2rem 1fr;
+  align-items: center;
+  padding-inline: 0.5rem;
+  color: var(--astilba-colors-ink-default);
+  font-size: 0.8125rem;
+  text-decoration: none;
+}
+
+.showcase-scroll-area-content a:hover {
+  background: var(--astilba-colors-surface-hover);
+}
+
+.showcase-scroll-area-content a:focus-visible {
+  outline: 0.125rem solid var(--astilba-colors-signal);
+  outline-offset: -0.125rem;
+}
+
+.showcase-scroll-area-content a span {
+  color: var(--astilba-colors-ink-muted);
+  font-family: var(--astilba-fonts-mono);
+  font-size: 0.6875rem;
+}
+
+.showcase-scroll-area-strip {
+  display: flex;
+  block-size: 100%;
+  inline-size: max-content;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline: 0.5rem;
+}
+
+.showcase-scroll-area-strip span {
+  display: inline-flex;
+  block-size: 2rem;
+  align-items: center;
+  border: 1px solid var(--astilba-colors-border-control);
+  padding-inline: 0.625rem;
+  color: var(--astilba-colors-ink-muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
 .token-section {
   margin-block-end: 6rem;
 }

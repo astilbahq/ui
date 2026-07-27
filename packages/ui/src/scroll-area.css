@@ -1,0 +1,134 @@
+@layer astilba.recipes {
+  .base-ui-disable-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .base-ui-disable-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .astilba-scroll-area-root {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .astilba-scroll-area-root:has(> .astilba-scroll-area-viewport:focus-visible) {
+    outline: 0.125rem solid var(--astilba-colors-signal);
+    outline-offset: -0.125rem;
+  }
+
+  .astilba-scroll-area-viewport {
+    block-size: 100%;
+    inline-size: 100%;
+  }
+
+  .astilba-scroll-area-viewport:focus-visible {
+    outline: none;
+  }
+
+  .astilba-scroll-area-viewport[data-fade="block"] {
+    --astilba-scroll-area-fade-size: 1.5rem;
+
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black
+        min(
+          var(--astilba-scroll-area-fade-size),
+          var(--scroll-area-overflow-y-start, 0px)
+        ),
+      black
+        calc(
+          100% -
+            min(
+              var(--astilba-scroll-area-fade-size),
+              var(
+                --scroll-area-overflow-y-end,
+                var(--astilba-scroll-area-fade-size)
+              )
+            )
+        ),
+      transparent 100%
+    );
+    mask-repeat: no-repeat;
+    scroll-padding-block: var(--astilba-scroll-area-fade-size);
+  }
+
+  .astilba-scroll-area-scrollbar {
+    color: var(--astilba-colors-ink-faint);
+    opacity: 0;
+    pointer-events: none;
+    transition-duration: var(--astilba-durations-fast);
+    transition-property: opacity;
+    transition-timing-function: var(--astilba-easings-out-expo);
+  }
+
+  .astilba-scroll-area-scrollbar[data-orientation="vertical"] {
+    inline-size: 0.5rem;
+    padding-block: 0.25rem;
+    padding-inline: 0.1875rem;
+  }
+
+  .astilba-scroll-area-scrollbar[data-orientation="horizontal"] {
+    block-size: 0.5rem;
+    padding-block: 0.1875rem;
+    padding-inline: 0.25rem;
+  }
+
+  .astilba-scroll-area-scrollbar:is([data-hovering], [data-scrolling]),
+  .astilba-scroll-area-root:focus-within > .astilba-scroll-area-scrollbar {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .astilba-scroll-area-scrollbar[data-scrolling] {
+    transition-duration: var(--astilba-durations-instant);
+  }
+
+  .astilba-scroll-area-thumb {
+    min-block-size: 1.5rem;
+    min-inline-size: 1.5rem;
+    border-radius: 999px;
+    background: currentColor;
+    transition-duration: var(--astilba-durations-fast);
+    transition-property: color;
+    transition-timing-function: var(--astilba-easings-out-expo);
+  }
+
+  .astilba-scroll-area-scrollbar:is([data-hovering], [data-scrolling])
+    > .astilba-scroll-area-thumb,
+  .astilba-scroll-area-root:focus-within
+    > .astilba-scroll-area-scrollbar
+    > .astilba-scroll-area-thumb {
+    color: var(--astilba-colors-ink-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .astilba-scroll-area-scrollbar,
+    .astilba-scroll-area-thumb {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .astilba-scroll-area-root:has(
+      > .astilba-scroll-area-viewport:focus-visible
+    ) {
+      outline-color: Highlight;
+    }
+
+    .astilba-scroll-area-viewport[data-fade="block"] {
+      mask-image: none;
+    }
+
+    .astilba-scroll-area-scrollbar {
+      color: CanvasText;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .astilba-scroll-area-thumb {
+      forced-color-adjust: none;
+    }
+  }
+}

@@ -27,6 +27,12 @@ describe("compiled component CSS", () => {
     expect(css).toContain("--astilba-durations-menu-open");
     expect(css).toContain("--astilba-durations-menu-close");
     expect(css).toContain(".astilba-menu-item[data-highlighted]");
+    expect(css).toContain(".astilba-scroll-area-root");
+    expect(css).toContain(".base-ui-disable-scrollbar::-webkit-scrollbar");
+    expect(css).toContain('.astilba-scroll-area-viewport[data-fade="block"]');
+    expect(css).toContain("--scroll-area-overflow-y-start");
+    expect(css).toContain(".astilba-scroll-area-scrollbar[data-scrolling]");
+    expect(css).toContain("@media (forced-colors: active)");
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");
     expect(css).toContain("transition: none;");
     expect(css).toContain("@layer astilba.utilities");

@@ -10,6 +10,13 @@ export const menuStyles = {
   positioner: "astilba-menu-positioner",
 } as const;
 
+export const scrollAreaStyles = {
+  root: "astilba-scroll-area-root",
+  scrollbar: "astilba-scroll-area-scrollbar",
+  thumb: "astilba-scroll-area-thumb",
+  viewport: "astilba-scroll-area-viewport",
+} as const;
+
 export const tooltipStyles = {
   labels: "astilba-tooltip-labels",
   popup: "astilba-tooltip-popup",

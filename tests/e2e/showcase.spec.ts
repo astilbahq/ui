@@ -218,6 +218,137 @@ test("renders the collapsible surface in both themes", async ({ page }) => {
   await expect(disclosure).toHaveScreenshot("collapsible-light.png");
 });
 
+test("explains vertical overflow and reveals its scrollbar on interaction", async ({
+  page,
+}) => {
+  await openShowcase(page);
+
+  const root = page.getByTestId("vertical-scroll-area");
+  const viewport = page.getByTestId("vertical-scroll-viewport");
+  const scrollbar = page.getByTestId("vertical-scrollbar");
+
+  await expect(viewport).toHaveAttribute("data-has-overflow-y");
+  await expect(viewport).toHaveAttribute("data-overflow-y-end");
+  await expect(viewport).not.toHaveAttribute("data-overflow-y-start");
+  await expect(viewport).toHaveAttribute("tabindex", "0");
+  await expect(viewport).toHaveCSS("scroll-padding-block-start", "24px");
+  expect(
+    await viewport.evaluate((element) => getComputedStyle(element).maskImage)
+  ).toContain("linear-gradient");
+  await expect(scrollbar).toHaveCSS("opacity", "0");
+  await expect(scrollbar).toHaveCSS("pointer-events", "none");
+
+  await root.hover();
+  await expect(scrollbar).toHaveAttribute("data-hovering");
+  await expect(scrollbar).toHaveCSS("opacity", "1");
+  await expect(scrollbar).toHaveCSS("pointer-events", "auto");
+
+  await page.mouse.move(0, 0);
+  await expect(scrollbar).not.toHaveAttribute("data-hovering");
+  await expect(scrollbar).toHaveCSS("opacity", "0");
+
+  await root.getByRole("link", { name: "Prepare release" }).focus();
+  await expect(scrollbar).toHaveCSS("opacity", "1");
+
+  await viewport.focus();
+  await expect(root).toHaveCSS("outline-width", "2px");
+  await expect(scrollbar).toHaveCSS("opacity", "1");
+  await page.keyboard.press("ArrowDown");
+  await expect
+    .poll(() => viewport.evaluate((element) => element.scrollTop))
+    .toBeGreaterThan(0);
+
+  await viewport.evaluate((element) => {
+    element.scrollTop = (element.scrollHeight - element.clientHeight) / 2;
+  });
+  await expect(viewport).toHaveAttribute("data-overflow-y-start");
+  await expect(viewport).toHaveAttribute("data-overflow-y-end");
+  await expect(scrollbar).toHaveAttribute("data-scrolling");
+  await expect
+    .poll(
+      () =>
+        scrollbar.evaluate((element) =>
+          Object.hasOwn(element.dataset, "scrolling")
+        ),
+      { timeout: 2000 }
+    )
+    .toBe(false);
+
+  await viewport.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  await expect(viewport).toHaveAttribute("data-overflow-y-start");
+  await expect(viewport).not.toHaveAttribute("data-overflow-y-end");
+});
+
+test("supports horizontal and non-overflowing content without extra tab stops", async ({
+  page,
+}) => {
+  await openShowcase(page);
+
+  const horizontalViewport = page.getByTestId("horizontal-scroll-viewport");
+  const horizontalScrollbar = page.getByTestId("horizontal-scrollbar");
+
+  await expect(horizontalViewport).toHaveAttribute("data-has-overflow-x");
+  await expect(horizontalViewport).toHaveAttribute("data-overflow-x-end");
+  await expect(horizontalViewport).not.toHaveAttribute("data-overflow-x-start");
+  await expect(horizontalViewport).toHaveAttribute("tabindex", "0");
+  await expect(horizontalViewport).toHaveCSS("mask-image", "none");
+  await expect(horizontalScrollbar).toHaveAttribute(
+    "data-orientation",
+    "horizontal"
+  );
+  await expect(horizontalScrollbar).not.toHaveAttribute("tabindex");
+  await expect(horizontalScrollbar.locator("div")).not.toHaveAttribute(
+    "tabindex"
+  );
+
+  await horizontalViewport.evaluate((element) => {
+    element.scrollLeft = -(element.scrollWidth - element.clientWidth) / 2;
+  });
+  await expect(horizontalViewport).toHaveAttribute("data-overflow-x-start");
+  await expect(horizontalViewport).toHaveAttribute("data-overflow-x-end");
+
+  await horizontalViewport.evaluate((element) => {
+    element.scrollLeft = -(element.scrollWidth - element.clientWidth);
+  });
+  await expect(horizontalViewport).toHaveAttribute("data-overflow-x-start");
+  await expect(horizontalViewport).not.toHaveAttribute("data-overflow-x-end");
+
+  const verticalViewport = page.getByTestId("vertical-scroll-viewport");
+  await verticalViewport.evaluate((element) => {
+    const content = element.firstElementChild;
+    content?.replaceChildren("No overflow");
+  });
+  await expect(verticalViewport).not.toHaveAttribute("data-has-overflow-y");
+  await expect(verticalViewport).toHaveAttribute("tabindex", "-1");
+});
+
+test("keeps the vertical scrollbar on inline-end in rtl", async ({ page }) => {
+  await openShowcase(page);
+  const root = page.getByTestId("vertical-scroll-area");
+  await root.evaluate((element) => {
+    element.dir = "rtl";
+  });
+
+  const rootBounds = await root.boundingBox();
+  const scrollbarBounds = await page
+    .getByTestId("vertical-scrollbar")
+    .boundingBox();
+
+  expect(rootBounds).not.toBeNull();
+  expect(scrollbarBounds).not.toBeNull();
+  expect(
+    Math.abs((rootBounds?.x ?? 0) - (scrollbarBounds?.x ?? 0))
+  ).toBeLessThan(1);
+
+  const dimensions = await page.evaluate(() => ({
+    clientWidth: document.documentElement.clientWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  expect(dimensions.scrollWidth).toBe(dimensions.clientWidth);
+});
+
 test("keeps outside controls actionable while the menu is open", async ({
   page,
 }) => {
@@ -257,6 +388,28 @@ test("removes tooltip motion when reduced motion is requested", async ({
     "transition-duration",
     "0s"
   );
+
+  const scrollArea = page.getByTestId("vertical-scroll-area");
+  await scrollArea.hover();
+  await expect(page.getByTestId("vertical-scrollbar")).toHaveCSS(
+    "transition-duration",
+    "0s"
+  );
+});
+
+test("keeps scroll areas legible in forced colours", async ({ page }) => {
+  await page.emulateMedia({ forcedColors: "active" });
+  await openShowcase(page);
+
+  const viewport = page.getByTestId("vertical-scroll-viewport");
+  const scrollbar = page.getByTestId("vertical-scrollbar");
+  const thumb = scrollbar.locator("div");
+
+  await expect(viewport).toHaveAttribute("data-has-overflow-y");
+  await expect(viewport).toHaveCSS("mask-image", "none");
+  await expect(scrollbar).toHaveCSS("opacity", "1");
+  await expect(scrollbar).toHaveCSS("pointer-events", "auto");
+  await expect(thumb).toHaveCSS("forced-color-adjust", "none");
 });
 
 test("has no detectable accessibility violations in either theme", async ({
