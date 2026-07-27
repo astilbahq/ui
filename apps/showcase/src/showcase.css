@@ -7,7 +7,7 @@
 html {
   min-inline-size: 20rem;
   background: var(--astilba-colors-canvas);
-  color: var(--astilba-colors-ink);
+  color: var(--astilba-colors-ink-default);
   font-family: var(--astilba-fonts-body);
   text-rendering: optimizeLegibility;
 }
@@ -16,7 +16,7 @@ body {
   min-block-size: 100vh;
   margin: 0;
   background: var(--astilba-colors-canvas);
-  color: var(--astilba-colors-ink);
+  color: var(--astilba-colors-ink-default);
   line-height: 1.6;
 }
 
@@ -70,7 +70,7 @@ svg {
   display: inline-flex;
   align-items: baseline;
   gap: 0.45rem;
-  color: var(--astilba-colors-ink);
+  color: var(--astilba-colors-ink-default);
   font-family: var(--astilba-fonts-heading);
   font-size: 0.875rem;
   font-weight: var(--astilba-font-weights-medium);
@@ -227,7 +227,7 @@ main,
 }
 
 .token-swatch--ink {
-  background: var(--astilba-colors-ink);
+  background: var(--astilba-colors-ink-default);
 }
 
 .token-swatch--signal {
@@ -282,14 +282,5 @@ main,
 
   .showcase-footer {
     display: grid;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
   }
 }

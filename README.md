@@ -29,6 +29,10 @@ pnpm verify
 pnpm dev
 ```
 
+`pnpm verify` includes the unit, package, Astro server-rendering, and real-browser contracts. Install Chromium once with `pnpm test:browser:install` when running the browser suite locally.
+
+Visual baselines are platform-qualified because browser text rendering differs across operating systems. Update a baseline on its native operating system with `pnpm test:browser:update`, then review the resulting images before committing them.
+
 Agent instructions are canonical in `AGENTS.md`; `CLAUDE.md` is a symbolic link. Checkouts require symbolic-link support. On Windows, enable Developer Mode or use an elevated shell and configure Git to preserve symbolic links before cloning.
 
 Temporary toolchain exceptions are recorded in [`docs/typechecking-exceptions.md`](docs/typechecking-exceptions.md).

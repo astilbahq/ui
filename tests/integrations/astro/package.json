@@ -1,0 +1,24 @@
+{
+  "name": "@astilba/integration-astro",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "astro build",
+    "test": "astro check && astro build && node tests/verify-output.mjs"
+  },
+  "dependencies": {
+    "@astilba/tokens": "workspace:*",
+    "@astilba/ui": "workspace:*",
+    "@astrojs/react": "6.0.1",
+    "astro": "7.1.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "typescript": "6.0.3"
+  }
+}

@@ -1,6 +1,9 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "workspaces": {
+    ".": {
+      "entry": ["scripts/serve-showcase.mjs!"]
+    },
     "apps/showcase": {
       "entry": ["tests/**/*.test.tsx!"],
       "project": ["src/**/*.{ts,tsx}!", "tests/**/*.tsx!", "*.config.ts!"]
@@ -13,6 +16,10 @@
       "entry": ["src/index.ts!", "tests/**/*.test.tsx!"],
       "ignoreDependencies": ["@astilba/tokens"],
       "project": ["src/**/*.{ts,tsx}!", "tests/**/*.tsx!", "*.config.ts!"]
+    },
+    "tests/integrations/astro": {
+      "entry": ["src/pages/**/*.astro!", "tests/**/*.mjs!"],
+      "project": ["src/**/*.astro!", "tests/**/*.mjs!", "*.config.ts!"]
     }
   }
 }
