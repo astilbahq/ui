@@ -24,6 +24,7 @@ Then use the components from React:
 ```tsx
 import {
   Button,
+  Collapsible,
   LinkButton,
   Menu,
   Tooltip,
@@ -37,6 +38,10 @@ export const Actions = () => (
     <Tooltip label="More information">
       <Button>Details</Button>
     </Tooltip>
+    <Collapsible.Root>
+      <Collapsible.Trigger>Deployment details</Collapsible.Trigger>
+      <Collapsible.Panel>Deployed from a verified artifact.</Collapsible.Panel>
+    </Collapsible.Root>
     <Menu.Root>
       <Menu.Trigger>More actions</Menu.Trigger>
       <Menu.Portal>
@@ -60,6 +65,7 @@ Component subpaths are also available when a consumer needs the narrowest possib
 
 ```tsx
 import { LinkButton } from "@astilba/ui/link-button";
+import { Collapsible } from "@astilba/ui/collapsible";
 import { Menu } from "@astilba/ui/menu";
 import { Tooltip, TooltipProvider } from "@astilba/ui/tooltip";
 ```
@@ -67,6 +73,8 @@ import { Tooltip, TooltipProvider } from "@astilba/ui/tooltip";
 The root entry remains tree-shakeable. Component JavaScript contains no Panda runtime; Panda generates the static class contract and stylesheet at build time.
 
 The component stylesheet contains recipe defaults only. Consumer Panda utilities remain later in the `astilba` layer order and can override those defaults without specificity workarounds.
+
+`Collapsible.Panel` owns only the disclosure transition. Consumers retain their own trigger presentation, content layout, chevrons, and state persistence. Set the panel transition to `none` in a consumer class while restoring persisted state to avoid animating initialization. Keep padding and borders on a child of the measured panel so its closed block size can reach zero cleanly.
 
 ## Astro
 

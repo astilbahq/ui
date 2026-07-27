@@ -223,6 +223,60 @@ main,
   font-size: 0.75rem;
 }
 
+.showcase-collapsible {
+  inline-size: min(100%, 24rem);
+  border-block: 1px solid var(--astilba-colors-border);
+}
+
+.showcase-collapsible-trigger {
+  display: flex;
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 0;
+  padding-block: 0.625rem;
+  padding-inline: 0;
+  background: transparent;
+  color: var(--astilba-colors-ink-default);
+  cursor: pointer;
+  font-family: var(--astilba-fonts-body);
+  font-size: 0.8125rem;
+  font-weight: var(--astilba-font-weights-medium);
+  text-align: start;
+}
+
+.showcase-collapsible-trigger:hover {
+  color: var(--astilba-colors-ink-strong);
+}
+
+.showcase-collapsible-trigger:focus-visible {
+  outline: 0.125rem solid var(--astilba-colors-signal);
+  outline-offset: -0.125rem;
+}
+
+.showcase-collapsible-chevron {
+  flex: 0 0 auto;
+  color: var(--astilba-colors-ink-muted);
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition-duration: var(--astilba-durations-control);
+  transition-property: transform;
+  transition-timing-function: var(--astilba-easings-out-quint);
+}
+
+.showcase-collapsible-trigger[data-panel-open] > .showcase-collapsible-chevron {
+  transform: rotate(180deg);
+}
+
+.showcase-collapsible-panel p {
+  margin: 0;
+  padding-block-end: 0.875rem;
+  color: var(--astilba-colors-ink-muted);
+  font-size: 0.8125rem;
+}
+
 .token-section {
   margin-block-end: 6rem;
 }
@@ -319,5 +373,11 @@ main,
 
   .showcase-footer {
     display: grid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-collapsible-chevron {
+    transition: none;
   }
 }

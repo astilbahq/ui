@@ -1,3 +1,7 @@
+export const collapsibleStyles = {
+  panel: "astilba-collapsible-panel",
+} as const;
+
 export const menuStyles = {
   item: "astilba-menu-item",
   itemLabel: "astilba-menu-item-label",

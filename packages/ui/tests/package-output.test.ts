@@ -32,8 +32,9 @@ describe("published JavaScript output", () => {
   });
 
   it("isolates Base UI primitives by component", async () => {
-    const [button, linkButton, menu, tooltip] = await Promise.all([
+    const [button, collapsible, linkButton, menu, tooltip] = await Promise.all([
       readOutput("button.js"),
+      readOutput("collapsible.js"),
       readOutput("link-button.js"),
       readOutput("menu.js"),
       readOutput("tooltip.js"),
@@ -41,6 +42,10 @@ describe("published JavaScript output", () => {
 
     expect(button).toContain("@base-ui/react/button");
     expect(button).not.toContain("@base-ui/react/tooltip");
+    expect(collapsible).toContain("@base-ui/react/collapsible");
+    expect(collapsible).not.toContain("@base-ui/react/button");
+    expect(collapsible).not.toContain("@base-ui/react/menu");
+    expect(collapsible).not.toContain("@base-ui/react/tooltip");
     expect(linkButton).not.toContain("@base-ui/react");
     expect(menu).toContain("@base-ui/react/menu");
     expect(menu).not.toContain("@base-ui/react/button");

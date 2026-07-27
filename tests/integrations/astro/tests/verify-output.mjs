@@ -3,6 +3,10 @@ import { readFile } from "node:fs/promises";
 
 const outputDirectory = new URL("../dist/", import.meta.url);
 const html = await readFile(new URL("index.html", outputDirectory), "utf-8");
+const collapsibleHtml = await readFile(
+  new URL("collapsible/index.html", outputDirectory),
+  "utf-8"
+);
 const menuHtml = await readFile(
   new URL("menu/index.html", outputDirectory),
   "utf-8"
@@ -47,3 +51,9 @@ assert.match(
   /<astro-island\b(?=[^>]*\bclient="load")[^>]*>[\s\S]*?<button[^>]*>More actions<\/button>/u
 );
 assert.match(menuHtml, /<script/u);
+
+assert.match(
+  collapsibleHtml,
+  /<astro-island\b(?=[^>]*\bclient="load")[^>]*>[\s\S]*?<button(?=[^>]*\btype="button")(?=[^>]*\baria-expanded="false")[^>]*>Deployment details<\/button>/u
+);
+assert.match(collapsibleHtml, /<script/u);

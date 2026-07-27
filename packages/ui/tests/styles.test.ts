@@ -11,6 +11,12 @@ describe("compiled component CSS", () => {
     );
 
     expect(css).toContain(".astilba-control--size_large");
+    expect(css).toContain(".astilba-collapsible-panel");
+    expect(css).toMatch(
+      /\.astilba-collapsible-panel\s*\{[^}]*box-sizing: border-box;[^}]*\}/u
+    );
+    expect(css).toContain("--collapsible-panel-height");
+    expect(css).toContain("--astilba-durations-disclosure");
     expect(css).toContain(".astilba-tooltip-popup");
     expect(css).toContain(".astilba-tooltip-popup[data-starting-style]");
     expect(css).toContain(".astilba-tooltip-popup[data-ending-style]");
