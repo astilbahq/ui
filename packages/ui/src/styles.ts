@@ -2,6 +2,18 @@ export const collapsibleStyles = {
   panel: "astilba-collapsible-panel",
 } as const;
 
+export const fieldStyles = {
+  description: "astilba-field-description",
+  error: "astilba-field-error",
+  label: "astilba-field-label",
+  root: "astilba-field-root",
+} as const;
+
+export const inputStyles = {
+  control: "astilba-input",
+  textarea: "astilba-textarea",
+} as const;
+
 export const menuStyles = {
   item: "astilba-menu-item",
   itemLabel: "astilba-menu-item-label",

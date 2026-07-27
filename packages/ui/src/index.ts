@@ -13,7 +13,19 @@ export {
   CollapsibleTrigger,
   type CollapsibleTriggerProps,
 } from "./collapsible.js";
+export {
+  Field,
+  FieldDescription,
+  type FieldDescriptionProps,
+  FieldError,
+  type FieldErrorProps,
+  FieldLabel,
+  type FieldLabelProps,
+  FieldRoot,
+  type FieldRootProps,
+} from "./field.js";
 export { IconButton, type IconButtonProps } from "./icon-button.js";
+export { Input, type InputProps, type InputType } from "./input.js";
 export { LinkButton, type LinkButtonProps } from "./link-button.js";
 export {
   Menu,
@@ -59,3 +71,4 @@ export {
   TooltipProvider,
   type TooltipProviderProps,
 } from "./tooltip.js";
+export { Textarea, type TextareaProps } from "./textarea.js";

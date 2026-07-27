@@ -16,7 +16,7 @@ Astilba UI provides one maintained source for Astilba's semantic design tokens a
 
 ## Positioning
 
-The token package exposes the same semantic roles as framework-neutral CSS variables and as a Panda CSS preset. The component package builds on those roles with Base UI semantics and static CSS, so consumers do not inherit a runtime styling engine.
+The token package exposes the same semantic roles as framework-neutral CSS variables and as a Panda CSS preset. The component package builds on those roles with native semantics, Base UI where behaviour warrants it, and static CSS, so consumers do not inherit a runtime styling engine.
 
 ## Operating Context
 

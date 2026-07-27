@@ -12,6 +12,21 @@ describe("compiled component CSS", () => {
 
     expect(css).toContain(".astilba-control--size_large");
     expect(css).toContain(".astilba-collapsible-panel");
+    expect(css).toContain(".astilba-field-root");
+    expect(css).toContain(".astilba-field-label");
+    expect(css).toContain(".astilba-field-description");
+    expect(css).toContain(".astilba-field-error");
+    expect(css).toContain(".astilba-input");
+    expect(css).toContain(".astilba-textarea");
+    expect(css).toMatch(
+      /@layer astilba\.recipes\s*\{[\s\S]*?\.astilba-field-root\s*\{/u
+    );
+    expect(css).toContain("--astilba-colors-border-field");
+    expect(css).toContain("--astilba-colors-surface-field");
+    expect(css).toContain(
+      '.astilba-input:is([aria-invalid="true"], [data-invalid])'
+    );
+    expect(css).toContain(".astilba-input:-webkit-autofill");
     expect(css).toMatch(
       /\.astilba-collapsible-panel\s*\{[^}]*box-sizing: border-box;[^}]*\}/u
     );

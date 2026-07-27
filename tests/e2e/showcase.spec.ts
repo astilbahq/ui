@@ -218,6 +218,44 @@ test("renders the collapsible surface in both themes", async ({ page }) => {
   await expect(disclosure).toHaveScreenshot("collapsible-light.png");
 });
 
+test("preserves field guidance, validation, focus, and themes", async ({
+  page,
+}) => {
+  await openShowcase(page);
+
+  const projectName = page.getByRole("textbox", { name: "Project name" });
+  const projectDescription = page.getByText(
+    "Used for the package and repository name."
+  );
+  const description = page.getByRole("textbox", { name: "Description" });
+  const invalidInput = page.getByTestId("invalid-input");
+  const disabledInput = page.getByRole("textbox", {
+    name: "Generated identifier",
+  });
+
+  const projectDescriptionId = await projectDescription.getAttribute("id");
+  expect(projectDescriptionId).not.toBeNull();
+  await expect(projectName).toHaveAttribute(
+    "aria-describedby",
+    projectDescriptionId ?? ""
+  );
+  await expect(projectName).toHaveCSS("height", "44px");
+  await projectName.focus();
+  await expect(projectName).toHaveCSS("outline-color", "oklch(0.72 0.17 32)");
+  await expect(projectName).toHaveCSS("outline-width", "2px");
+  await expect(description).toHaveCSS("min-height", "112px");
+  await expect(description).toHaveCSS("resize", "block");
+  await expect(invalidInput).toHaveAttribute("aria-invalid", "true");
+  await expect(invalidInput).toHaveCSS("border-color", "oklch(0.91 0.04 32)");
+  await expect(disabledInput).toBeDisabled();
+  await expect(disabledInput).toHaveCSS("opacity", "0.5");
+
+  await page.getByRole("button", { name: "Use light theme" }).first().click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(projectName).toHaveCSS("background-color", "rgb(255, 255, 255)");
+  await expect(projectName).toHaveCSS("color", "rgb(13, 13, 13)");
+});
+
 test("explains vertical overflow and reveals its scrollbar on interaction", async ({
   page,
 }) => {
@@ -410,6 +448,21 @@ test("keeps scroll areas legible in forced colours", async ({ page }) => {
   await expect(scrollbar).toHaveCSS("opacity", "1");
   await expect(scrollbar).toHaveCSS("pointer-events", "auto");
   await expect(thumb).toHaveCSS("forced-color-adjust", "none");
+});
+
+test("keeps form fields legible in forced colours", async ({ page }) => {
+  await page.emulateMedia({ forcedColors: "active" });
+  await openShowcase(page);
+
+  const projectName = page.getByRole("textbox", { name: "Project name" });
+  const invalidInput = page.getByTestId("invalid-input");
+
+  await expect(projectName).toHaveCSS("forced-color-adjust", "auto");
+  await projectName.focus();
+  await expect(projectName).toHaveCSS("outline-style", "solid");
+  await expect(projectName).toHaveCSS("outline-width", "2px");
+  await expect(invalidInput).toHaveCSS("border-style", "solid");
+  await expect(invalidInput).toHaveCSS("border-width", "1px");
 });
 
 test("has no detectable accessibility violations in either theme", async ({
