@@ -71,6 +71,16 @@
         "name": "tooltip-close",
         "value": "50ms cubic-bezier(0.16, 1, 0.3, 1)",
         "purpose": "Tooltip exit."
+      },
+      {
+        "name": "menu-open",
+        "value": "250ms cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Menu entry."
+      },
+      {
+        "name": "menu-close",
+        "value": "150ms cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Menu exit."
       }
     ]
   },
@@ -112,6 +122,13 @@
       "description": "A compact elevated label for icon controls and transient feedback.",
       "html": "<span class=\"ds-tooltip\" role=\"tooltip\">Copy</span>",
       "css": ".ds-tooltip { display: inline-block; padding-block: 0.375rem; padding-inline: 0.5rem; background: var(--astilba-colors-surface-elevated); box-shadow: var(--astilba-shadows-elevated); color: var(--astilba-colors-ink-control); font: 500 0.75rem/1 var(--astilba-fonts-body); transform: scale(1); transition: opacity 150ms cubic-bezier(0.16, 1, 0.3, 1), transform 150ms cubic-bezier(0.16, 1, 0.3, 1); }"
+    },
+    {
+      "name": "Menu",
+      "kind": "custom",
+      "description": "A compact non-modal action and navigation surface with distinct pointer and keyboard states.",
+      "html": "<div class=\"ds-menu\" role=\"menu\"><div class=\"ds-menu-item\" role=\"menuitem\" tabindex=\"0\">Update project</div><a class=\"ds-menu-item\" role=\"menuitem\" href=\"/docs\">Read the docs</a></div>",
+      "css": ".ds-menu { inline-size: 13rem; padding: 0.25rem; background: var(--astilba-colors-surface-elevated); box-shadow: var(--astilba-shadows-elevated); transform: scale(1); transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1), transform 250ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-menu-item { display: flex; min-block-size: 2.5rem; align-items: center; padding-block: 0.5rem; padding-inline: 0.75rem; color: var(--astilba-colors-ink-default); font: 400 0.8125rem/1 var(--astilba-fonts-body); text-decoration: none; } .ds-menu-item:hover { background: var(--astilba-colors-surface-highlight); } .ds-menu-item:focus-visible { outline: 2px solid var(--astilba-colors-signal); outline-offset: -2px; }"
     }
   ],
   "narrative": {

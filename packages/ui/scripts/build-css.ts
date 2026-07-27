@@ -22,15 +22,21 @@ const utilityCss = await readFile(
   path.resolve(generatedStylesDirectory, "utilities.css"),
   "utf-8"
 );
-const componentCss = await readFile(
-  path.resolve(import.meta.dirname, "../src/tooltip.css"),
-  "utf-8"
+const componentSourceDirectory = path.resolve(import.meta.dirname, "../src");
+const componentSourceEntries = await readdir(componentSourceDirectory);
+const componentStyleFiles = componentSourceEntries
+  .filter((file) => file.endsWith(".css"))
+  .toSorted();
+const componentCss = await Promise.all(
+  componentStyleFiles.map((file) =>
+    readFile(path.resolve(componentSourceDirectory, file), "utf-8")
+  )
 );
 const outputDirectory = path.resolve(import.meta.dirname, "../dist");
 
 await mkdir(outputDirectory, { recursive: true });
 await writeFile(
   path.resolve(outputDirectory, "styles.css"),
-  [...recipeCss, componentCss, utilityCss].join("\n"),
+  [...recipeCss, ...componentCss, utilityCss].join("\n"),
   "utf-8"
 );

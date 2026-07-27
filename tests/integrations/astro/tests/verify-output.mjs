@@ -3,6 +3,10 @@ import { readFile } from "node:fs/promises";
 
 const outputDirectory = new URL("../dist/", import.meta.url);
 const html = await readFile(new URL("index.html", outputDirectory), "utf-8");
+const menuHtml = await readFile(
+  new URL("menu/index.html", outputDirectory),
+  "utf-8"
+);
 const hasClass = (element, className) =>
   element
     .match(/\bclass="(?<classes>[^"]*)"/u)
@@ -37,3 +41,9 @@ assert.match(stylesheet, /--astilba-colors-canvas/u);
 assert.match(stylesheet, /\.astilba-control\{/u);
 assert.doesNotMatch(html, /<astro-island/u);
 assert.doesNotMatch(html, /<script/u);
+
+assert.match(
+  menuHtml,
+  /<astro-island\b(?=[^>]*\bclient="load")[^>]*>[\s\S]*?<button[^>]*>More actions<\/button>/u
+);
+assert.match(menuHtml, /<script/u);

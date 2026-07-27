@@ -140,6 +140,15 @@ Controls, elevated surfaces, and code blocks are square. Inline code is the narr
 - **Reduced motion:** removes the transition without removing the state change.
 - **Feedback:** idle and active labels share one grid area so copy feedback never shifts layout.
 
+### Menus
+
+- **Surface:** square elevated surface with a 4px inset and semantic elevated shadow.
+- **Items:** 40px minimum block size, 12px inline padding, 13px body text, and optional trailing content.
+- **Input modality:** pointer hover uses only the quiet highlight surface; keyboard navigation adds the signal focus outline.
+- **Behaviour:** roots are non-modal by default, ordinary items close after activation, and persistent actions opt out explicitly.
+- **Motion:** 250ms scale-and-fade entry and 150ms exit, removed under reduced-motion preferences.
+- **Ownership:** the primitive owns accessible menu behaviour and shared item structure; product-specific trigger appearance, widths, selected states, badges, and responsive density stay with the consumer.
+
 ## Do's and Don'ts
 
 ### Do:
