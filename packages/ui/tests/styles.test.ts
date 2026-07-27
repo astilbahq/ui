@@ -20,5 +20,16 @@ describe("compiled component CSS", () => {
     expect(css).toContain("transition: none;");
     expect(css).toContain("@layer astilba.utilities");
     expect(css).not.toMatch(/--astilba-colors-[\w-]+\s*:/u);
+
+    const largeControl = css.match(
+      /\.astilba-control--size_large\s*\{\s*padding-inline: 0\.875rem;[^}]*\}/u
+    );
+    const iconOnlyControl = css.match(
+      /\.astilba-control--iconOnly_true\s*\{\s*padding-inline: 0;[^}]*\}/u
+    );
+
+    expect(largeControl).not.toBeNull();
+    expect(iconOnlyControl).not.toBeNull();
+    expect(iconOnlyControl?.index).toBeGreaterThan(largeControl?.index ?? -1);
   });
 });

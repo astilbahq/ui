@@ -89,6 +89,7 @@ export default defineConfig({
             size: "default",
           },
           staticCss: ["*"],
+          // oxlint-disable-next-line sort-keys -- Variant order is the compiled cascade contract.
           variants: {
             appearance: {
               ghost: {},
@@ -125,17 +126,19 @@ export default defineConfig({
                 color: "ink.onPrimary",
               },
             },
-            iconOnly: {
-              true: {
-                inlineSize: "2rem",
-                paddingInline: 0,
-              },
-            },
             size: {
               default: {},
               large: {
                 blockSize: "2.5rem",
                 paddingInline: "0.875rem",
+              },
+            },
+            // Keep icon-only padding after size so it overrides large-size
+            // padding. The compound variant above retains the 2.5rem width.
+            iconOnly: {
+              true: {
+                inlineSize: "2rem",
+                paddingInline: 0,
               },
             },
           },
