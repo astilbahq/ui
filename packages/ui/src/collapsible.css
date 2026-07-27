@@ -1,0 +1,28 @@
+@layer astilba.recipes {
+  .astilba-collapsible-panel {
+    box-sizing: border-box;
+    block-size: var(--collapsible-panel-height);
+    overflow: hidden;
+    opacity: 1;
+    filter: blur(0);
+    transition-duration: var(--astilba-durations-disclosure);
+    transition-property: block-size, opacity, filter;
+    transition-timing-function: var(--astilba-easings-out-quint);
+  }
+
+  .astilba-collapsible-panel:is([data-starting-style], [data-ending-style]) {
+    block-size: 0;
+    opacity: 0;
+    filter: blur(var(--astilba-blurs-disclosure));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .astilba-collapsible-panel {
+      transition: none;
+    }
+
+    .astilba-collapsible-panel:is([data-starting-style], [data-ending-style]) {
+      filter: none;
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import {
   Button,
+  Collapsible,
   IconButton,
   LinkButton,
   Menu,
@@ -296,13 +297,53 @@ export const App = () => {
         </section>
 
         <section
+          className="specimen-section"
+          aria-labelledby="disclosures-title"
+        >
+          <div className="section-heading">
+            <div>
+              <p>04</p>
+              <h2 id="disclosures-title">Disclosures</h2>
+            </div>
+            <code>Collapsible</code>
+          </div>
+
+          <div className="specimen-row">
+            <div>
+              <h3>Details in context</h3>
+              <p>
+                A disclosure explains its state without moving focus away from
+                the decision that opened it.
+              </p>
+            </div>
+            <Collapsible.Root className="showcase-collapsible">
+              <Collapsible.Trigger className="showcase-collapsible-trigger">
+                Deployment details
+                <ChevronDown
+                  aria-hidden="true"
+                  className="showcase-collapsible-chevron"
+                  size={14}
+                  strokeWidth={1.5}
+                />
+              </Collapsible.Trigger>
+              <Collapsible.Panel className="showcase-collapsible-panel">
+                <p>
+                  The release uses a verified artifact and retains native button
+                  semantics.
+                </p>
+              </Collapsible.Panel>
+            </Collapsible.Root>
+          </div>
+        </section>
+
+        <section
           className="specimen-section token-section"
           id="tokens"
           aria-labelledby="tokens-title"
         >
           <div className="section-heading">
             <div>
-              <p>04</p>
+              <p>05</p>
               <h2 id="tokens-title">Semantic base</h2>
             </div>
             <code>@astilba/tokens</code>

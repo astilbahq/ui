@@ -4,6 +4,15 @@ export {
   type ControlAppearance,
   type ControlSize,
 } from "./button.js";
+export {
+  Collapsible,
+  CollapsiblePanel,
+  type CollapsiblePanelProps,
+  CollapsibleRoot,
+  type CollapsibleRootProps,
+  CollapsibleTrigger,
+  type CollapsibleTriggerProps,
+} from "./collapsible.js";
 export { IconButton, type IconButtonProps } from "./icon-button.js";
 export { LinkButton, type LinkButtonProps } from "./link-button.js";
 export {

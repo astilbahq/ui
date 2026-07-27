@@ -179,6 +179,45 @@ test("renders the menu surface in both themes", async ({ page }) => {
   await expect(menu).toHaveScreenshot("menu-light.png");
 });
 
+test("preserves collapsible semantics, focus, and motion", async ({ page }) => {
+  await openShowcase(page);
+
+  const trigger = page.getByRole("button", { name: "Deployment details" });
+  const panelContent = page.getByText(
+    "The release uses a verified artifact and retains native button semantics."
+  );
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(panelContent).toBeHidden();
+
+  await trigger.focus();
+  await page.keyboard.press("Enter");
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(panelContent).toBeVisible();
+  const panel = panelContent.locator("..");
+  await expect(panel).toHaveCSS("box-sizing", "border-box");
+  await expect(panel).toHaveCSS("transition-duration", "0.25s");
+
+  await page.keyboard.press(" ");
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(panelContent).toBeHidden();
+});
+
+test("renders the collapsible surface in both themes", async ({ page }) => {
+  await openShowcase(page);
+
+  const trigger = page.getByRole("button", { name: "Deployment details" });
+  await trigger.click();
+  const disclosure = page.locator(".showcase-collapsible");
+  await expect(disclosure).toHaveScreenshot("collapsible-dark.png");
+
+  const header = page.locator(".showcase-header");
+  await header.getByRole("button", { name: "Use light theme" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(disclosure).toHaveScreenshot("collapsible-light.png");
+});
+
 test("keeps outside controls actionable while the menu is open", async ({
   page,
 }) => {
@@ -208,6 +247,16 @@ test("removes tooltip motion when reduced motion is requested", async ({
 
   await page.getByRole("button", { name: "More actions" }).click();
   await expect(page.getByRole("menu")).toHaveCSS("transition-duration", "0s");
+
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "Deployment details" }).click();
+  const disclosureContent = page.getByText(
+    "The release uses a verified artifact and retains native button semantics."
+  );
+  await expect(disclosureContent.locator("..")).toHaveCSS(
+    "transition-duration",
+    "0s"
+  );
 });
 
 test("has no detectable accessibility violations in either theme", async ({
@@ -223,6 +272,11 @@ test("has no detectable accessibility violations in either theme", async ({
   const darkMenuResults = await analyzeOpenMenuWcag(page);
   expect(darkMenuResults.violations).toEqual([]);
   await page.keyboard.press("Escape");
+  await expect(page.getByRole("menu")).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Deployment details" }).click();
+  const openDisclosureResults = await analyzeWcag(page);
+  expect(openDisclosureResults.violations).toEqual([]);
 
   await page.getByRole("button", { name: "Use light theme" }).first().click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
