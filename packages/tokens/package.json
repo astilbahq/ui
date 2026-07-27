@@ -1,6 +1,6 @@
 {
   "name": "@astilba/tokens",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Astilba's framework-neutral design tokens and Panda preset.",
   "homepage": "https://github.com/astilbahq/ui/tree/main/packages/tokens#readme",
   "bugs": {
