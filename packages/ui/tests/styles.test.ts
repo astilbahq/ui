@@ -47,6 +47,17 @@ describe("compiled component CSS", () => {
     expect(css).toContain('.astilba-scroll-area-viewport[data-fade="block"]');
     expect(css).toContain("--scroll-area-overflow-y-start");
     expect(css).toContain(".astilba-scroll-area-scrollbar[data-scrolling]");
+    expect(css).toMatch(
+      /\.astilba-scroll-area-scrollbar\[data-orientation="vertical"\]\s*>\s*\.astilba-scroll-area-thumb\s*\{[^}]*min-block-size: 1\.5rem;[^}]*inline-size: 100%;[^}]*\}/u
+    );
+    expect(css).toMatch(
+      /\.astilba-scroll-area-scrollbar\[data-orientation="horizontal"\]\s*>\s*\.astilba-scroll-area-thumb\s*\{[^}]*block-size: 100%;[^}]*min-inline-size: 1\.5rem;[^}]*\}/u
+    );
+    expect(css).toContain(".astilba-tabs-list");
+    expect(css).toContain(".astilba-tabs-tab[data-active]");
+    expect(css).toContain(".astilba-tabs-indicator");
+    expect(css).toContain("--active-tab-width");
+    expect(css).toContain("--astilba-durations-tabs");
     expect(css).toContain("@media (forced-colors: active)");
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");
     expect(css).toContain("transition: none;");

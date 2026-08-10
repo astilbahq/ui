@@ -8,11 +8,13 @@ import {
 import axe from "axe-core";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { App } from "../src/app";
+import { App, stripSvgMetadata } from "../src/app";
 
 describe("showcase", () => {
   afterEach(() => {
     cleanup();
+    window.history.replaceState({}, "", "/");
+    vi.restoreAllMocks();
     vi.useRealTimers();
   });
 
@@ -27,6 +29,7 @@ describe("showcase", () => {
   });
 
   it("changes theme without changing control semantics", () => {
+    window.history.replaceState({}, "", "/icons/");
     render(<App />);
 
     const [themeToggle] = screen.getAllByRole("button", {
@@ -45,6 +48,7 @@ describe("showcase", () => {
 
   it("shows copy feedback for the full reset interval", () => {
     vi.useFakeTimers();
+    window.history.replaceState({}, "", "/icons/");
     render(<App />);
 
     fireEvent.click(screen.getByRole("button", { name: "Copy" }));
@@ -64,10 +68,10 @@ describe("showcase", () => {
   it("provides a focusable skip-link destination", () => {
     render(<App />);
 
-    const skipLink = screen.getByRole("link", { name: "Skip to specimens" });
-    const destination = document.querySelector("#specimens");
+    const skipLink = screen.getByRole("link", { name: "Skip to content" });
+    const destination = document.querySelector("#showcase-content");
 
-    expect(skipLink.getAttribute("href")).toBe("#specimens");
+    expect(skipLink.getAttribute("href")).toBe("#showcase-content");
     expect(destination?.getAttribute("tabindex")).toBe("-1");
   });
 
@@ -77,5 +81,46 @@ describe("showcase", () => {
     expect(
       screen.getByRole("link", { name: "Astilba home" }).getAttribute("href")
     ).toBe("https://astilba.com/");
+  });
+
+  it("opens on brand and navigates between focused pages", () => {
+    const pushState = vi.spyOn(window.history, "pushState");
+    render(<App />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Astilba" })
+    ).toBeDefined();
+    const brandLink = screen.getByRole("link", { name: "Brand" });
+    expect(brandLink.getAttribute("aria-current")).toBe("page");
+    fireEvent.click(brandLink);
+    expect(pushState).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole("link", { name: "Actions" }));
+    expect(pushState).toHaveBeenCalledOnce();
+
+    expect(window.location.pathname).toBe("/actions/");
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Actions" })
+    ).toBeDefined();
+    expect(
+      screen.getByRole("link", { name: "Actions" }).getAttribute("aria-current")
+    ).toBe("page");
+  });
+
+  it("parses SVG metadata and rejects malformed comment openers", () => {
+    const svg =
+      '<?xml version="1.0"?><!-- editor --><svg xmlns="http://www.w3.org/2000/svg"><!-- nested --><path d="M0 0" /></svg>';
+
+    const sanitized = stripSvgMetadata(svg);
+
+    expect(sanitized).toContain("<svg");
+    expect(sanitized).toContain('<path d="M0 0"/>');
+    expect(sanitized).not.toContain("<?xml");
+    expect(sanitized).not.toContain("<!--");
+    expect(() =>
+      stripSvgMetadata(
+        '<!-- <!-- editor --><svg xmlns="http://www.w3.org/2000/svg" />'
+      )
+    ).toThrow("The brand asset is not valid SVG.");
   });
 });

@@ -9,15 +9,19 @@ allowBuilds:
 
 minimumReleaseAge: 4320
 
-# Exact security exception for GHSA-mh99-v99m-4gvg.
-minimumReleaseAgeExclude:
-  - brace-expansion@5.0.8
-
 overrides:
-  "brace-expansion@>=5.0.0 <5.0.8": 5.0.8
+  # Exact security overrides for active OSV advisories. Remove them when the
+  # direct dependency ranges resolve these versions without intervention.
+  "brace-expansion@>=5.0.0 <5.0.9": 5.0.9
+  "fast-uri@<3.1.5": 3.1.5
+  "hono@<4.12.34": 4.12.34
+  "ip-address@<10.3.1": 10.3.1
+  "js-yaml@<4.3.1": 4.3.1
+  "nanoid@>=3.0.0 <3.3.17": 3.3.17
   # Exact security override for GHSA-r28c-9q8g-f849. Panda's transitive
   # PostCSS range accepts this patched version.
-  "postcss@<8.5.18": 8.5.22
+  "postcss@<8.5.23": 8.5.23
   # Exact security override for GHSA-f88m-g3jw-g9cj. Remove once the pinned
   # Wrangler resolves sharp >=0.35.0.
   "sharp@<0.35.0": 0.35.3
+  "undici@<7.29.0": 7.29.0

@@ -23,6 +23,7 @@ describe("static token CSS", () => {
 
     expect(css).toContain("--astilba-colors-canvas: #121212;");
     expect(css).toContain("--astilba-colors-border-field: #767676;");
+    expect(css).toContain("--astilba-durations-tabs: 250ms;");
     expect(css).toContain("--astilba-colors-surface-field: #181818;");
     expect(css).toContain(':root[data-theme="light"]');
     expect(css).toContain("--astilba-colors-canvas: #fdfdfd;");

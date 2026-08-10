@@ -29,6 +29,13 @@ export const scrollAreaStyles = {
   viewport: "astilba-scroll-area-viewport",
 } as const;
 
+export const tabsStyles = {
+  indicator: "astilba-tabs-indicator",
+  list: "astilba-tabs-list",
+  panel: "astilba-tabs-panel",
+  tab: "astilba-tabs-tab",
+} as const;
+
 export const tooltipStyles = {
   labels: "astilba-tooltip-labels",
   popup: "astilba-tooltip-popup",

@@ -86,13 +86,23 @@
   }
 
   .astilba-scroll-area-thumb {
-    min-block-size: 1.5rem;
-    min-inline-size: 1.5rem;
     border-radius: 999px;
     background: currentColor;
     transition-duration: var(--astilba-durations-fast);
     transition-property: color;
     transition-timing-function: var(--astilba-easings-out-expo);
+  }
+
+  .astilba-scroll-area-scrollbar[data-orientation="vertical"]
+    > .astilba-scroll-area-thumb {
+    min-block-size: 1.5rem;
+    inline-size: 100%;
+  }
+
+  .astilba-scroll-area-scrollbar[data-orientation="horizontal"]
+    > .astilba-scroll-area-thumb {
+    block-size: 100%;
+    min-inline-size: 1.5rem;
   }
 
   .astilba-scroll-area-scrollbar:is([data-hovering], [data-scrolling])

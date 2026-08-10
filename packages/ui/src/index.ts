@@ -66,6 +66,19 @@ export {
   type ScrollAreaViewportProps,
 } from "./scroll-area.js";
 export {
+  Tabs,
+  TabsIndicator,
+  type TabsIndicatorProps,
+  TabsList,
+  type TabsListProps,
+  TabsPanel,
+  type TabsPanelProps,
+  TabsRoot,
+  type TabsRootProps,
+  TabsTab,
+  type TabsTabProps,
+} from "./tabs.js";
+export {
   Tooltip,
   type TooltipProps,
   TooltipProvider,
