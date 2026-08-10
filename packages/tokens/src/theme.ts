@@ -24,6 +24,7 @@ export const tokens = {
     menuOpen: "250ms",
     modalClose: "150ms",
     modalOpen: "250ms",
+    tabs: "250ms",
     tooltipClose: "50ms",
     tooltipOpen: "150ms",
   },

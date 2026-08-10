@@ -18,6 +18,7 @@ export default defineConfig({
         "@base-ui/react/direction-provider",
         "@base-ui/react/menu",
         "@base-ui/react/scroll-area",
+        "@base-ui/react/tabs",
         "@base-ui/react/tooltip",
         "react",
         "react/jsx-runtime",

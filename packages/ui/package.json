@@ -56,6 +56,10 @@
       "types": "./dist/scroll-area.d.ts",
       "import": "./dist/scroll-area.js"
     },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "import": "./dist/tabs.js"
+    },
     "./tooltip": {
       "types": "./dist/tooltip.d.ts",
       "import": "./dist/tooltip.js"

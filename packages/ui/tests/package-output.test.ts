@@ -40,6 +40,7 @@ describe("published JavaScript output", () => {
       linkButton,
       menu,
       scrollArea,
+      tabs,
       textarea,
       tooltip,
     ] = await Promise.all([
@@ -50,6 +51,7 @@ describe("published JavaScript output", () => {
       readOutput("link-button.js"),
       readOutput("menu.js"),
       readOutput("scroll-area.js"),
+      readOutput("tabs.js"),
       readOutput("textarea.js"),
       readOutput("tooltip.js"),
     ]);
@@ -73,6 +75,10 @@ describe("published JavaScript output", () => {
     expect(scrollArea).not.toContain("@base-ui/react/button");
     expect(scrollArea).not.toContain("@base-ui/react/menu");
     expect(scrollArea).not.toContain("@base-ui/react/tooltip");
+    expect(tabs).toContain("@base-ui/react/tabs");
+    expect(tabs).not.toContain("@base-ui/react/button");
+    expect(tabs).not.toContain("@base-ui/react/menu");
+    expect(tabs).not.toContain("@base-ui/react/tooltip");
     expect(textarea).not.toContain("@base-ui/react");
     expect(tooltip).toContain("@base-ui/react/tooltip");
     expect(tooltip).not.toContain("@base-ui/react/button");

@@ -1,0 +1,118 @@
+@layer astilba.recipes {
+  .astilba-tabs-list {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .astilba-tabs-list[data-orientation="vertical"] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .astilba-tabs-tab {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    min-inline-size: 2rem;
+    block-size: 2rem;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 0;
+    padding-block: 0;
+    padding-inline: 0.625rem;
+    background: transparent;
+    color: var(--astilba-colors-ink-muted);
+    cursor: pointer;
+    font-family: var(--astilba-fonts-body);
+    font-size: 0.8125rem;
+    font-weight: var(--astilba-font-weights-medium);
+    line-height: 1;
+    outline: 0;
+    transition-duration: var(--astilba-durations-tabs);
+    transition-property: color;
+    transition-timing-function: var(--astilba-easings-out-quint);
+    white-space: nowrap;
+  }
+
+  .astilba-tabs-tab:not([data-active]):hover {
+    background: var(--astilba-colors-surface-hover);
+    color: var(--astilba-colors-ink-strong);
+  }
+
+  .astilba-tabs-tab[data-active] {
+    color: var(--astilba-colors-ink-strong);
+  }
+
+  .astilba-tabs-tab:focus-visible {
+    color: var(--astilba-colors-ink-strong);
+    outline-color: var(--astilba-colors-signal);
+    outline-offset: -0.125rem;
+    outline-style: solid;
+    outline-width: 0.125rem;
+  }
+
+  .astilba-tabs-tab[data-disabled] {
+    color: var(--astilba-colors-ink-muted);
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  .astilba-tabs-indicator {
+    position: absolute;
+    z-index: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: var(--active-tab-width);
+    block-size: var(--active-tab-height);
+    background: var(--astilba-colors-surface-selected);
+    pointer-events: none;
+    translate: var(--active-tab-left) var(--active-tab-top);
+    transition-duration: var(--astilba-durations-tabs);
+    transition-property: translate, inline-size, block-size;
+    transition-timing-function: var(--astilba-easings-out-quint);
+    will-change: translate, inline-size, block-size;
+  }
+
+  .astilba-tabs-list:dir(rtl) .astilba-tabs-indicator {
+    translate: calc(-1 * var(--active-tab-right)) var(--active-tab-top);
+  }
+
+  .astilba-tabs-panel {
+    min-inline-size: 0;
+    outline: 0;
+  }
+
+  .astilba-tabs-panel:focus-visible {
+    outline-color: var(--astilba-colors-signal);
+    outline-offset: -0.125rem;
+    outline-style: solid;
+    outline-width: 0.125rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .astilba-tabs-indicator,
+    .astilba-tabs-tab {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .astilba-tabs-indicator {
+      background: Highlight;
+      forced-color-adjust: none;
+    }
+
+    .astilba-tabs-tab[data-active] {
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+
+    .astilba-tabs-tab:focus-visible,
+    .astilba-tabs-panel:focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}

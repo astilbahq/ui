@@ -158,6 +158,15 @@ Controls, elevated surfaces, and code blocks are square. Inline code is the narr
 - **Accessibility:** reduced motion removes transitions; forced colours remove the mask and keep the scrollbar visible.
 - **Ownership:** the primitive owns overflow feedback and scrollbar interaction. Consumers own dimensions, content layout, overscroll policy, and position persistence.
 
+### Tabs
+
+- **Structure:** the primitive owns tab and panel associations, roving focus, selection, and disabled states through Base UI.
+- **Activation:** selection is manual by default; consumers may activate on focus when every panel is immediately available.
+- **Indicator:** a flat semantic selected surface follows the active tab using measured position and size.
+- **Motion:** the indicator changes position and size over 250ms with the shared exponential ease-out curve.
+- **Accessibility:** arrow keys, Home, End, Enter, Space, focus visibility, right-to-left geometry, forced colours, and reduced motion remain supported.
+- **Ownership:** consumers own labels, panel content, surrounding layout, orientation, and controlled state.
+
 ### Form Fields
 
 - **Structure:** labels, descriptions, errors, inputs, and textareas are thin native wrappers rather than an application form framework.

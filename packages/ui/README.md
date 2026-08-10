@@ -30,6 +30,7 @@ import {
   LinkButton,
   Menu,
   ScrollArea,
+  Tabs,
   Textarea,
   Tooltip,
   TooltipProvider,
@@ -67,6 +68,15 @@ export const Actions = () => (
         <ScrollArea.Thumb />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
+    <Tabs.Root defaultValue="overview">
+      <Tabs.List aria-label="Project sections">
+        <Tabs.Tab value="overview">Overview</Tabs.Tab>
+        <Tabs.Tab value="activity">Activity</Tabs.Tab>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Panel value="overview">Project overview</Tabs.Panel>
+      <Tabs.Panel value="activity">Recent activity</Tabs.Panel>
+    </Tabs.Root>
     <Field.Root>
       <Field.Label htmlFor="project-name">Project name</Field.Label>
       <Input
@@ -97,6 +107,7 @@ import { Field } from "@astilba/ui/field";
 import { Input } from "@astilba/ui/input";
 import { Menu } from "@astilba/ui/menu";
 import { ScrollArea } from "@astilba/ui/scroll-area";
+import { Tabs } from "@astilba/ui/tabs";
 import { Textarea } from "@astilba/ui/textarea";
 import { Tooltip, TooltipProvider } from "@astilba/ui/tooltip";
 ```
@@ -108,6 +119,8 @@ The component stylesheet contains recipe defaults only. Consumer Panda utilities
 `Collapsible.Panel` owns only the disclosure transition. Consumers retain their own trigger presentation, content layout, chevrons, and state persistence. Set the panel transition to `none` in a consumer class while restoring persisted state to avoid animating initialization. Keep padding and borders on a child of the measured panel so its closed block size can reach zero cleanly.
 
 `ScrollArea` owns overflow-edge feedback, focus treatment, and a scrollbar that appears on hover, focus, or active scrolling. Pass `fade="block"` to `ScrollArea.Viewport` for a vertical edge fade, and set `direction="rtl"` on `ScrollArea.Root` when the scroll coordinates follow right-to-left reading order. Consumers retain sizing, content layout, overscroll policy, and scroll-position persistence. Include `ScrollArea.Content` whenever horizontal overflow is possible.
+
+`Tabs` owns tab and panel associations, roving keyboard focus, selected state, and a measured indicator that follows the active tab. Selection uses manual activation by default; pass `activateOnFocus` to `Tabs.List` when every panel is available immediately and arrow-key focus should also select it. Consumers retain labels, panel content, surrounding layout, and controlled state.
 
 `Field`, `Input`, and `Textarea` are intentionally native form wrappers. Give every control a stable `id`, connect its label with `htmlFor`, and list persistent guidance in `aria-describedby`. Error elements may stay mounted, but keep them hidden and omit their ID from `aria-describedby` until the error is active; hidden referenced text still contributes to the accessible description. Product code retains validation, form state, layout, and submission behaviour.
 
@@ -146,7 +159,7 @@ export const ProjectNameField = () => (
 
 This wrapper still renders as static HTML and needs no client directive. Because these field components are native and context-free, consumers may also import their named parts and place them directly in an `.astro` template.
 
-Add an Astro client directive when a component needs React-managed browser behaviour, including state, event handlers, effects, context, or an interactive primitive such as `Menu`, `ScrollArea`, or `Tooltip`. `ScrollArea` needs hydration before it can measure overflow, update edge signals, and position its thumb. Server-rendered controls can also be enhanced by a separate Astro or vanilla browser script without hydrating React.
+Add an Astro client directive when a component needs React-managed browser behaviour, including state, event handlers, effects, context, or an interactive primitive such as `Menu`, `ScrollArea`, `Tabs`, or `Tooltip`. `ScrollArea` needs hydration before it can measure overflow, update edge signals, and position its thumb. `Tabs` needs hydration for selection and to measure its active indicator. Server-rendered controls can also be enhanced by a separate Astro or vanilla browser script without hydrating React.
 
 ## Compatibility
 
@@ -154,4 +167,4 @@ Add an Astro client directive when a component needs React-managed browser behav
 - Supported React and React DOM versions are declared as peer dependencies.
 - Consumers own their reset, fonts, layout, routing, and application state.
 - Import `@astilba/tokens/css` and `@astilba/ui/styles.css` once for the complete component styling contract.
-- Base UI writes inline geometry for positioned or measured primitives, including `ScrollArea`. Strict CSP consumers must account for those style attributes in `style-src-attr`. `ScrollArea` disables Base UI's inline scrollbar-hiding style element and ships the equivalent rule in the static component stylesheet.
+- Base UI writes inline geometry for positioned or measured primitives, including `ScrollArea` and the `Tabs` indicator. Strict CSP consumers must account for those style attributes in `style-src-attr`. `ScrollArea` disables Base UI's inline scrollbar-hiding style element and ships the equivalent rule in the static component stylesheet.

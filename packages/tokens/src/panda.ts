@@ -117,6 +117,7 @@ export const astilbaPreset = {
           menuOpen: { value: tokens.durations.menuOpen },
           modalClose: { value: tokens.durations.modalClose },
           modalOpen: { value: tokens.durations.modalOpen },
+          tabs: { value: tokens.durations.tabs },
           tooltipClose: { value: tokens.durations.tooltipClose },
           tooltipOpen: { value: tokens.durations.tooltipOpen },
         },
