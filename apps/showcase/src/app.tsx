@@ -262,11 +262,30 @@ const pageFromPathname = (pathname: string): ShowcasePage => {
   );
 };
 
-const stripSvgMetadata = (svg: string): string =>
-  svg
-    .replaceAll(/<\?xml[^>]*>\s*/gu, "")
-    .replaceAll(/<!--[\s\S]*?-->\s*/gu, "")
-    .trim();
+const removeComments = (node: Node): void => {
+  let child = node.firstChild;
+  while (child) {
+    const next = child.nextSibling;
+    if (child.nodeType === 8) {
+      child.remove();
+    } else {
+      removeComments(child);
+    }
+    child = next;
+  }
+};
+
+export const stripSvgMetadata = (svg: string): string => {
+  const document = new DOMParser().parseFromString(svg, "image/svg+xml");
+  const svgElement = document.documentElement;
+
+  if (svgElement.localName !== "svg") {
+    throw new Error("The brand asset is not valid SVG.");
+  }
+
+  removeComments(svgElement);
+  return new XMLSerializer().serializeToString(svgElement).trim();
+};
 
 const svgToJsx = (svg: string, componentName: string): string => {
   const withoutMetadata = stripSvgMetadata(svg)

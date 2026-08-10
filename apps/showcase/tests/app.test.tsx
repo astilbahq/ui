@@ -8,7 +8,7 @@ import {
 import axe from "axe-core";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { App } from "../src/app";
+import { App, stripSvgMetadata } from "../src/app";
 
 describe("showcase", () => {
   afterEach(() => {
@@ -105,5 +105,22 @@ describe("showcase", () => {
     expect(
       screen.getByRole("link", { name: "Actions" }).getAttribute("aria-current")
     ).toBe("page");
+  });
+
+  it("parses SVG metadata and rejects malformed comment openers", () => {
+    const svg =
+      '<?xml version="1.0"?><!-- editor --><svg xmlns="http://www.w3.org/2000/svg"><!-- nested --><path d="M0 0" /></svg>';
+
+    const sanitized = stripSvgMetadata(svg);
+
+    expect(sanitized).toContain("<svg");
+    expect(sanitized).toContain('<path d="M0 0"/>');
+    expect(sanitized).not.toContain("<?xml");
+    expect(sanitized).not.toContain("<!--");
+    expect(() =>
+      stripSvgMetadata(
+        '<!-- <!-- editor --><svg xmlns="http://www.w3.org/2000/svg" />'
+      )
+    ).toThrow("The brand asset is not valid SVG.");
   });
 });
