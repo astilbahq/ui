@@ -7,6 +7,7 @@ import {
   LinkButton,
   Menu,
   ScrollArea,
+  Tabs,
   Tooltip,
   TooltipProvider,
   Textarea,
@@ -16,31 +17,395 @@ import {
   Check,
   ChevronDown,
   Copy,
+  Download,
   ExternalLink,
   Moon,
   Sun,
 } from "lucide-react";
+import type { MouseEvent as ReactMouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
+import lockupLightUrl from "./assets/astilba-lockup-horizontal-light.svg";
+import lockupLightSvg from "./assets/astilba-lockup-horizontal-light.svg?raw";
+import logomarkColorUrl from "./assets/astilba-logomark-color.svg";
+import logomarkColorSvg from "./assets/astilba-logomark-color.svg?raw";
+import logomarkDarkUrl from "./assets/astilba-logomark-dark.svg";
+import logomarkDarkSvg from "./assets/astilba-logomark-dark.svg?raw";
+import logomarkLightUrl from "./assets/astilba-logomark-light.svg";
+import logomarkLightSvg from "./assets/astilba-logomark-light.svg?raw";
+import wordmarkLightUrl from "./assets/astilba-wordmark-light.svg";
+import wordmarkLightSvg from "./assets/astilba-wordmark-light.svg?raw";
+
 type Theme = "dark" | "light";
+type BrandCodeFormat = "cdn" | "jsx" | "svg" | "uri";
+type BrandAssetId =
+  | "lockup-light"
+  | "logomark-color"
+  | "logomark-dark"
+  | "logomark-light"
+  | "wordmark-light";
+type ShowcasePageId =
+  | "actions"
+  | "brand"
+  | "disclosures"
+  | "fields"
+  | "icons"
+  | "menus"
+  | "scroll-areas"
+  | "tokens";
+
+interface ShowcasePage {
+  description: string;
+  href: string;
+  id: ShowcasePageId;
+  label: string;
+  title: string;
+}
+
+interface BrandAsset {
+  filename: string;
+  id: BrandAssetId;
+  label: string;
+  palette: string;
+  previewTone: "dark" | "light" | "neutral";
+  svg: string;
+  url: string;
+}
+
 const COPY_RESET_DELAY = 1400;
+const BRAND_COPY_RESET_DELAY = 1600;
+
+const DEFAULT_BRAND_ASSET: BrandAsset = {
+  filename: "astilba-logomark-color.svg",
+  id: "logomark-color",
+  label: "Colour mark",
+  palette: "#DF9D86 · #3F6E4E",
+  previewTone: "neutral",
+  svg: logomarkColorSvg,
+  url: logomarkColorUrl,
+};
+
+const BRAND_ASSETS: readonly BrandAsset[] = [
+  DEFAULT_BRAND_ASSET,
+  {
+    filename: "astilba-logomark-light.svg",
+    id: "logomark-light",
+    label: "Light mark",
+    palette: "#FBFAF8",
+    previewTone: "dark",
+    svg: logomarkLightSvg,
+    url: logomarkLightUrl,
+  },
+  {
+    filename: "astilba-logomark-dark.svg",
+    id: "logomark-dark",
+    label: "Dark mark",
+    palette: "#131B24",
+    previewTone: "light",
+    svg: logomarkDarkSvg,
+    url: logomarkDarkUrl,
+  },
+  {
+    filename: "astilba-wordmark-light.svg",
+    id: "wordmark-light",
+    label: "Wordmark",
+    palette: "#FFFFFF",
+    previewTone: "dark",
+    svg: wordmarkLightSvg,
+    url: wordmarkLightUrl,
+  },
+  {
+    filename: "astilba-lockup-horizontal-light.svg",
+    id: "lockup-light",
+    label: "Lockup",
+    palette: "#FBFAF8",
+    previewTone: "dark",
+    svg: lockupLightSvg,
+    url: lockupLightUrl,
+  },
+] as const;
+
+const BRAND_CODE_FORMATS: readonly BrandCodeFormat[] = [
+  "svg",
+  "jsx",
+  "cdn",
+  "uri",
+];
+
+const SVG_JSX_ATTRIBUTES = [
+  ["class", "className"],
+  ["clip-path", "clipPath"],
+  ["clip-rule", "clipRule"],
+  ["fill-rule", "fillRule"],
+  ["stroke-linecap", "strokeLinecap"],
+  ["stroke-linejoin", "strokeLinejoin"],
+  ["stroke-width", "strokeWidth"],
+  ["stop-color", "stopColor"],
+  ["stop-opacity", "stopOpacity"],
+  ["vector-effect", "vectorEffect"],
+  ["xlink:href", "xlinkHref"],
+  ["xmlns:xlink", "xmlnsXlink"],
+] as const;
+
+const isBrandCodeFormat = (value: unknown): value is BrandCodeFormat =>
+  BRAND_CODE_FORMATS.some((format) => format === value);
+
+const styleToJsx = (style: string): string => {
+  const declarations = style
+    .split(";")
+    .map((declaration) => declaration.trim())
+    .filter(Boolean)
+    .map((declaration) => {
+      const separator = declaration.indexOf(":");
+      if (separator === -1) {
+        return null;
+      }
+
+      const property = declaration.slice(0, separator).trim();
+      const value = declaration.slice(separator + 1).trim();
+      if (!(property && value)) {
+        return null;
+      }
+
+      const jsxProperty = property.startsWith("--")
+        ? property
+        : property
+            .split("-")
+            .map((part, index) =>
+              index === 0
+                ? part
+                : `${part[0]?.toUpperCase() ?? ""}${part.slice(1)}`
+            )
+            .join("");
+      return `${JSON.stringify(jsxProperty)}: ${JSON.stringify(value)}`;
+    })
+    .filter((declaration): declaration is string => declaration !== null);
+
+  return `style={{ ${declarations.join(", ")} }}`;
+};
+
+const BRAND_PAGE: ShowcasePage = {
+  description:
+    "The mark, wordmark, and lockup that identify Astilba across every product.",
+  href: "/",
+  id: "brand",
+  label: "Brand",
+  title: "Astilba",
+};
+
+const SHOWCASE_PAGES: readonly ShowcasePage[] = [
+  BRAND_PAGE,
+  {
+    description:
+      "Buttons and links share one compact hierarchy without losing their native semantics.",
+    href: "/actions/",
+    id: "actions",
+    label: "Actions",
+    title: "Actions",
+  },
+  {
+    description:
+      "Small, named controls pair restrained iconography with accessible feedback.",
+    href: "/icons/",
+    id: "icons",
+    label: "Icons",
+    title: "Icon controls",
+  },
+  {
+    description:
+      "Compact surfaces for actions and navigation, with clear pointer and keyboard states.",
+    href: "/menus/",
+    id: "menus",
+    label: "Menus",
+    title: "Menus",
+  },
+  {
+    description:
+      "Progressively reveal supporting detail without moving focus away from its trigger.",
+    href: "/disclosures/",
+    id: "disclosures",
+    label: "Disclosures",
+    title: "Disclosures",
+  },
+  {
+    description:
+      "Keep overflow in context with native scrolling, edge fades, and quiet scrollbars.",
+    href: "/scroll-areas/",
+    id: "scroll-areas",
+    label: "Scroll areas",
+    title: "Scroll areas",
+  },
+  {
+    description:
+      "Labels, guidance, validation, and recovery stay attached to the controls they explain.",
+    href: "/fields/",
+    id: "fields",
+    label: "Fields",
+    title: "Form fields",
+  },
+  {
+    description:
+      "The semantic colour, type, spacing, and motion decisions beneath every Astilba interface.",
+    href: "/tokens/",
+    id: "tokens",
+    label: "Tokens",
+    title: "Semantic base",
+  },
+] as const;
+
+const pageFromPathname = (pathname: string): ShowcasePage => {
+  const firstSegment = pathname.split("/").find(Boolean);
+  const normalizedPath = firstSegment ? `/${firstSegment}/` : "/";
+
+  return (
+    SHOWCASE_PAGES.find(({ href }) => href === normalizedPath) ?? BRAND_PAGE
+  );
+};
+
+const stripSvgMetadata = (svg: string): string =>
+  svg
+    .replaceAll(/<\?xml[^>]*>\s*/gu, "")
+    .replaceAll(/<!--[\s\S]*?-->\s*/gu, "")
+    .trim();
+
+const svgToJsx = (svg: string, componentName: string): string => {
+  const withoutMetadata = stripSvgMetadata(svg)
+    .replaceAll(/style="(?<style>[^"]*)"/gu, (_match, style: string) =>
+      styleToJsx(style)
+    )
+    .replaceAll(/style='(?<style>[^']*)'/gu, (_match, style: string) =>
+      styleToJsx(style)
+    );
+  let jsx = withoutMetadata;
+  for (const [attribute, jsxAttribute] of SVG_JSX_ATTRIBUTES) {
+    jsx = jsx.replaceAll(`${attribute}=`, `${jsxAttribute}=`);
+  }
+  jsx = jsx.trim();
+
+  return `export function ${componentName}() {\n  return (\n${jsx
+    .split("\n")
+    .map((line) => `    ${line}`)
+    .join("\n")}\n  );\n}`;
+};
+
+const getBrandCode = (asset: BrandAsset, format: BrandCodeFormat): string => {
+  if (format === "jsx") {
+    const componentName = asset.id
+      .split("-")
+      .map((part) => `${part[0]?.toUpperCase() ?? ""}${part.slice(1)}`)
+      .join("");
+    return svgToJsx(asset.svg, `Astilba${componentName}`);
+  }
+
+  if (format === "cdn") {
+    return new URL(asset.url, window.location.origin).href;
+  }
+
+  const svg = stripSvgMetadata(asset.svg);
+  if (format === "uri") {
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+  }
+
+  return svg;
+};
+
+const getSvgDimensions = (svg: string, longestEdge: number) => {
+  const viewBox = svg.match(
+    /viewBox=["']\s*[-\d.]+\s+[-\d.]+\s+(?<width>[\d.]+)\s+(?<height>[\d.]+)\s*["']/u
+  );
+  const sourceWidth = Number(viewBox?.groups?.width ?? longestEdge);
+  const sourceHeight = Number(viewBox?.groups?.height ?? longestEdge);
+
+  if (sourceWidth >= sourceHeight) {
+    return {
+      height: Math.max(
+        1,
+        Math.round((longestEdge * sourceHeight) / sourceWidth)
+      ),
+      width: longestEdge,
+    };
+  }
+
+  return {
+    height: longestEdge,
+    width: Math.max(1, Math.round((longestEdge * sourceWidth) / sourceHeight)),
+  };
+};
+
+const downloadPng = async (
+  asset: BrandAsset,
+  longestEdge: number
+): Promise<void> => {
+  const image = new Image();
+  const source = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+    asset.svg
+  )}`;
+
+  image.src = source;
+  await image.decode();
+
+  const { height, width } = getSvgDimensions(asset.svg, longestEdge);
+  const canvas = document.createElement("canvas");
+  canvas.height = height;
+  canvas.width = width;
+  const context = canvas.getContext("2d");
+
+  if (!context) {
+    throw new Error("Canvas is unavailable.");
+  }
+
+  context.drawImage(image, 0, 0, width, height);
+  const link = document.createElement("a");
+  link.download = asset.filename.replace(/\.svg$/u, `-${longestEdge}.png`);
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+};
 
 const ControlArrow = () => (
   <ArrowRight aria-hidden="true" size={14} strokeWidth={1.5} />
 );
 
 export const App = () => {
+  const [activePage, setActivePage] = useState(() =>
+    pageFromPathname(window.location.pathname)
+  );
+  const [brandCodeCopied, setBrandCodeCopied] = useState(false);
+  const [brandCodeError, setBrandCodeError] = useState<string | null>(null);
+  const [brandCodeFormat, setBrandCodeFormat] =
+    useState<BrandCodeFormat>("svg");
+  const [selectedBrandAsset, setSelectedBrandAsset] =
+    useState<BrandAsset>(DEFAULT_BRAND_ASSET);
+  const [brandExportError, setBrandExportError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [menuAction, setMenuAction] = useState("No action selected");
   const [theme, setTheme] = useState<Theme>("dark");
+  const brandCopyResetTimer = useRef<number | null>(null);
   const copyResetTimer = useRef<number | null>(null);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
 
+  useEffect(() => {
+    document.title = `${activePage.title} · Astilba Interface`;
+  }, [activePage.title]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setActivePage(pageFromPathname(window.location.pathname));
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
   useEffect(
     () => () => {
+      if (brandCopyResetTimer.current !== null) {
+        window.clearTimeout(brandCopyResetTimer.current);
+      }
       if (copyResetTimer.current !== null) {
         window.clearTimeout(copyResetTimer.current);
       }
@@ -49,11 +414,68 @@ export const App = () => {
   );
 
   const isDark = theme === "dark";
+  const copyBrandCode = async (code: string): Promise<void> => {
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      setBrandCodeCopied(false);
+      setBrandCodeError("Code could not be copied.");
+      return;
+    }
+
+    setBrandCodeError(null);
+    setBrandCodeCopied(true);
+    if (brandCopyResetTimer.current !== null) {
+      window.clearTimeout(brandCopyResetTimer.current);
+    }
+    brandCopyResetTimer.current = window.setTimeout(() => {
+      setBrandCodeCopied(false);
+    }, BRAND_COPY_RESET_DELAY);
+  };
+  const exportBrandPng = async (
+    asset: BrandAsset,
+    longestEdge: number
+  ): Promise<void> => {
+    try {
+      await downloadPng(asset, longestEdge);
+      setBrandExportError(null);
+    } catch {
+      setBrandExportError("PNG could not be exported.");
+    }
+  };
+  const navigate = (
+    event: ReactMouseEvent<HTMLAnchorElement>,
+    page: ShowcasePage
+  ) => {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    if (page.id === activePage.id) {
+      if (window.scrollY !== 0) {
+        window.scrollTo({ top: 0 });
+      }
+      return;
+    }
+
+    window.history.pushState({}, "", page.href);
+    setActivePage(page);
+    if (window.scrollY !== 0) {
+      window.scrollTo({ top: 0 });
+    }
+  };
 
   return (
     <TooltipProvider>
-      <a className="skip-link" href="#specimens">
-        Skip to specimens
+      <a className="skip-link" href="#showcase-content">
+        Skip to content
       </a>
 
       <header className="showcase-header">
@@ -83,18 +505,241 @@ export const App = () => {
         </Tooltip>
       </header>
 
-      <main id="specimens" tabIndex={-1}>
+      <nav className="showcase-nav" aria-label="Interface sections">
+        <div>
+          {SHOWCASE_PAGES.map((page) => (
+            <a
+              aria-current={activePage.id === page.id ? "page" : undefined}
+              href={page.href}
+              key={page.id}
+              onClick={(event) => {
+                navigate(event, page);
+              }}
+            >
+              {page.label}
+            </a>
+          ))}
+        </div>
+      </nav>
+
+      <main id="showcase-content" tabIndex={-1}>
         <section className="showcase-intro" aria-labelledby="showcase-title">
-          <p className="showcase-kicker">Foundation / 01</p>
-          <h1 id="showcase-title">Controls with less noise.</h1>
-          <p>
-            A compact shared layer for Astilba products. Native semantics,
-            visible focus, static styles, and just enough motion to explain
-            state.
-          </p>
+          <p className="showcase-kicker">Interface / {activePage.label}</p>
+          <h1 id="showcase-title">{activePage.title}</h1>
+          <p>{activePage.description}</p>
         </section>
 
-        <section className="specimen-section" aria-labelledby="actions-title">
+        <section
+          className="specimen-section brand-section"
+          aria-labelledby="brand-title"
+          hidden={activePage.id !== "brand"}
+        >
+          <div className="brand-workbench">
+            <div className="brand-preview-column">
+              <figure
+                className="brand-preview"
+                data-tone={selectedBrandAsset.previewTone}
+              >
+                <figcaption>{selectedBrandAsset.palette}</figcaption>
+                <img
+                  alt={`${selectedBrandAsset.label} preview`}
+                  src={selectedBrandAsset.url}
+                />
+              </figure>
+            </div>
+
+            <div className="brand-details">
+              <div className="brand-details-header">
+                <h2 id="brand-title">{selectedBrandAsset.label}</h2>
+                <div className="brand-download">
+                  <a
+                    className="brand-download-primary"
+                    download={selectedBrandAsset.filename}
+                    href={selectedBrandAsset.url}
+                  >
+                    <Download aria-hidden="true" size={14} strokeWidth={1.5} />
+                    Download SVG
+                  </a>
+                  <Menu.Root>
+                    <Menu.Trigger
+                      aria-label="More download formats"
+                      className="brand-download-trigger"
+                    >
+                      <ChevronDown
+                        aria-hidden="true"
+                        size={14}
+                        strokeWidth={1.5}
+                      />
+                    </Menu.Trigger>
+                    <Menu.Portal>
+                      <Menu.Positioner align="end">
+                        <Menu.Popup className="showcase-menu-popup">
+                          <Menu.LinkItem
+                            download={selectedBrandAsset.filename}
+                            href={selectedBrandAsset.url}
+                            label="Download SVG"
+                          >
+                            <Menu.ItemLabel>Download SVG</Menu.ItemLabel>
+                            <Menu.ItemTrailing>Vector</Menu.ItemTrailing>
+                          </Menu.LinkItem>
+                          <Menu.Item
+                            label="Download PNG"
+                            onClick={async () => {
+                              await exportBrandPng(selectedBrandAsset, 512);
+                            }}
+                          >
+                            <Menu.ItemLabel>Download PNG</Menu.ItemLabel>
+                            <Menu.ItemTrailing>512px</Menu.ItemTrailing>
+                          </Menu.Item>
+                        </Menu.Popup>
+                      </Menu.Positioner>
+                    </Menu.Portal>
+                  </Menu.Root>
+                </div>
+              </div>
+
+              <div className="brand-variant-section">
+                <p>Variants</p>
+                <div className="brand-variants">
+                  {BRAND_ASSETS.map((asset) => (
+                    <button
+                      aria-pressed={asset.id === selectedBrandAsset.id}
+                      key={asset.id}
+                      onClick={() => {
+                        setSelectedBrandAsset(asset);
+                        setBrandCodeCopied(false);
+                        setBrandCodeError(null);
+                        setBrandExportError(null);
+                      }}
+                      type="button"
+                    >
+                      <span
+                        className="brand-variant-preview"
+                        data-tone={asset.previewTone}
+                      >
+                        <img alt="" src={asset.url} />
+                      </span>
+                      <span>{asset.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <Tabs.Root
+                className="brand-code"
+                onValueChange={(value) => {
+                  if (!isBrandCodeFormat(value)) {
+                    return;
+                  }
+                  setBrandCodeFormat(value);
+                  setBrandCodeCopied(false);
+                  setBrandCodeError(null);
+                }}
+                value={brandCodeFormat}
+              >
+                <div className="brand-code-toolbar">
+                  <Tabs.List
+                    activateOnFocus
+                    aria-label="Asset code formats"
+                    className="brand-code-tabs"
+                  >
+                    {BRAND_CODE_FORMATS.map((format) => (
+                      <Tabs.Tab key={format} value={format}>
+                        {format.toUpperCase()}
+                      </Tabs.Tab>
+                    ))}
+                    <Tabs.Indicator />
+                  </Tabs.List>
+                  <Tooltip
+                    active={brandCodeCopied}
+                    activeLabel="Copied!"
+                    label="Copy code"
+                    onActiveDismiss={() => {
+                      setBrandCodeCopied(false);
+                    }}
+                  >
+                    <IconButton
+                      appearance="ghost"
+                      className="brand-code-copy"
+                      label="Copy code"
+                      onClick={() =>
+                        copyBrandCode(
+                          getBrandCode(selectedBrandAsset, brandCodeFormat)
+                        )
+                      }
+                    >
+                      {brandCodeCopied ? (
+                        <Check aria-hidden="true" size={16} strokeWidth={1.5} />
+                      ) : (
+                        <Copy aria-hidden="true" size={16} strokeWidth={1.5} />
+                      )}
+                    </IconButton>
+                  </Tooltip>
+                </div>
+                {BRAND_CODE_FORMATS.map((format) => {
+                  const code = getBrandCode(selectedBrandAsset, format);
+
+                  return (
+                    <Tabs.Panel
+                      className="brand-code-panel"
+                      keepMounted
+                      key={format}
+                      value={format}
+                    >
+                      <ScrollArea.Root className="brand-code-scroll-area">
+                        <ScrollArea.Viewport
+                          aria-label={`${format.toUpperCase()} source code`}
+                          className="brand-code-scroll-viewport"
+                        >
+                          <ScrollArea.Content className="brand-code-scroll-content">
+                            <pre>
+                              <code>{code}</code>
+                            </pre>
+                          </ScrollArea.Content>
+                        </ScrollArea.Viewport>
+                        <ScrollArea.Scrollbar>
+                          <ScrollArea.Thumb />
+                        </ScrollArea.Scrollbar>
+                        <ScrollArea.Scrollbar orientation="horizontal">
+                          <ScrollArea.Thumb />
+                        </ScrollArea.Scrollbar>
+                        <ScrollArea.Corner />
+                      </ScrollArea.Root>
+                    </Tabs.Panel>
+                  );
+                })}
+              </Tabs.Root>
+              <p aria-live="polite" className="brand-code-status">
+                {brandCodeError}
+              </p>
+
+              <div className="brand-export">
+                <p>Export PNG</p>
+                <div>
+                  {[32, 64, 128, 256, 512].map((size) => (
+                    <Button
+                      key={size}
+                      onClick={async () => {
+                        await exportBrandPng(selectedBrandAsset, size);
+                      }}
+                    >
+                      {size}px
+                    </Button>
+                  ))}
+                </div>
+                <p aria-live="polite" className="brand-export-status">
+                  {brandExportError}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          className="specimen-section"
+          aria-labelledby="actions-title"
+          hidden={activePage.id !== "actions"}
+        >
           <div className="section-heading">
             <div>
               <p>01</p>
@@ -126,7 +771,7 @@ export const App = () => {
               </p>
             </div>
             <div className="control-line">
-              <LinkButton appearance="primary" href="#tokens" size="large">
+              <LinkButton appearance="primary" href="/tokens/" size="large">
                 Read the contract
                 <ControlArrow />
               </LinkButton>
@@ -172,11 +817,15 @@ export const App = () => {
           </div>
         </section>
 
-        <section className="specimen-section" aria-labelledby="icons-title">
+        <section
+          className="specimen-section"
+          aria-labelledby="icons-title"
+          hidden={activePage.id !== "icons"}
+        >
           <div className="section-heading">
             <div>
-              <p>02</p>
-              <h2 id="icons-title">Icon controls</h2>
+              <p>Feedback</p>
+              <h2 id="icons-title">Icon buttons and tooltips</h2>
             </div>
             <code>IconButton · Tooltip</code>
           </div>
@@ -235,11 +884,15 @@ export const App = () => {
           </div>
         </section>
 
-        <section className="specimen-section" aria-labelledby="menus-title">
+        <section
+          className="specimen-section"
+          aria-labelledby="menus-title"
+          hidden={activePage.id !== "menus"}
+        >
           <div className="section-heading">
             <div>
-              <p>03</p>
-              <h2 id="menus-title">Menus</h2>
+              <p>Overlays</p>
+              <h2 id="menus-title">Menu primitives</h2>
             </div>
             <code>Menu</code>
           </div>
@@ -286,7 +939,7 @@ export const App = () => {
                         <Menu.Item disabled label="Archived action">
                           <Menu.ItemLabel>Archived action</Menu.ItemLabel>
                         </Menu.Item>
-                        <Menu.LinkItem href="#tokens" label="View tokens">
+                        <Menu.LinkItem href="/tokens/" label="View tokens">
                           <Menu.ItemLabel>View tokens</Menu.ItemLabel>
                           <Menu.ItemTrailing aria-hidden="true">
                             <ExternalLink size={12} strokeWidth={1.5} />
@@ -307,11 +960,12 @@ export const App = () => {
         <section
           className="specimen-section"
           aria-labelledby="disclosures-title"
+          hidden={activePage.id !== "disclosures"}
         >
           <div className="section-heading">
             <div>
-              <p>04</p>
-              <h2 id="disclosures-title">Disclosures</h2>
+              <p>Behaviour</p>
+              <h2 id="disclosures-title">Collapsible content</h2>
             </div>
             <code>Collapsible</code>
           </div>
@@ -344,11 +998,15 @@ export const App = () => {
           </div>
         </section>
 
-        <section className="specimen-section" aria-labelledby="scroll-title">
+        <section
+          className="specimen-section"
+          aria-labelledby="scroll-title"
+          hidden={activePage.id !== "scroll-areas"}
+        >
           <div className="section-heading">
             <div>
-              <p>05</p>
-              <h2 id="scroll-title">Scroll areas</h2>
+              <p>Overflow</p>
+              <h2 id="scroll-title">Contained scrolling</h2>
             </div>
             <code>ScrollArea</code>
           </div>
@@ -436,11 +1094,15 @@ export const App = () => {
           </div>
         </section>
 
-        <section className="specimen-section" aria-labelledby="fields-title">
+        <section
+          className="specimen-section"
+          aria-labelledby="fields-title"
+          hidden={activePage.id !== "fields"}
+        >
           <div className="section-heading">
             <div>
-              <p>06</p>
-              <h2 id="fields-title">Form fields</h2>
+              <p>Inputs</p>
+              <h2 id="fields-title">Field foundations</h2>
             </div>
             <code>Field · Input · Textarea</code>
           </div>
@@ -524,11 +1186,12 @@ export const App = () => {
           className="specimen-section token-section"
           id="tokens"
           aria-labelledby="tokens-title"
+          hidden={activePage.id !== "tokens"}
         >
           <div className="section-heading">
             <div>
-              <p>07</p>
-              <h2 id="tokens-title">Semantic base</h2>
+              <p>Foundation</p>
+              <h2 id="tokens-title">Colour roles</h2>
             </div>
             <code>@astilba/tokens</code>
           </div>

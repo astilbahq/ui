@@ -39,7 +39,24 @@ const server = createServer(async (request, response) => {
     });
     response.end(request.method === "HEAD" ? undefined : file);
   } catch {
-    response.writeHead(404).end();
+    const acceptsDocument =
+      request.method === "GET" || request.method === "HEAD";
+    const isRoute = path.extname(relativePath) === "";
+
+    if (!(acceptsDocument && isRoute)) {
+      response.writeHead(404).end();
+      return;
+    }
+
+    try {
+      const index = await readFile(path.resolve(root, "index.html"));
+      response.writeHead(200, {
+        "Content-Type": "text/html; charset=utf-8",
+      });
+      response.end(request.method === "HEAD" ? undefined : index);
+    } catch {
+      response.writeHead(404).end();
+    }
   }
 });
 
