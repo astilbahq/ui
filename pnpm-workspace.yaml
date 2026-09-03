@@ -13,7 +13,7 @@ overrides:
   # Exact security overrides for active OSV advisories. Remove them when the
   # direct dependency ranges resolve these versions without intervention.
   "brace-expansion@>=5.0.0 <5.0.9": 5.0.9
-  "fast-uri@<3.1.5": 3.1.5
+  "fast-uri@<3.1.5": 3.1.6
   "hono@<4.12.34": 4.12.34
   "ip-address@<10.3.1": 10.3.1
   "js-yaml@<4.3.1": 4.3.1
@@ -28,3 +28,5 @@ overrides:
 minimumReleaseAgeExclude:
   # Renovate security update: postcss@8.5.24
   - postcss@8.5.24
+  # Renovate security update: fast-uri@3.1.6
+  - fast-uri@3.1.6
