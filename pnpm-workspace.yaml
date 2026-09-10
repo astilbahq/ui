@@ -14,7 +14,7 @@ overrides:
   # direct dependency ranges resolve these versions without intervention.
   "brace-expansion@>=5.0.0 <5.0.9": 5.0.9
   "fast-uri@<3.1.5": 3.1.5
-  "hono@<4.12.34": 4.12.34
+  "hono@<4.12.34": 4.13.5
   "ip-address@<10.3.1": 10.3.1
   "js-yaml@<4.3.1": 4.3.1
   "nanoid@>=3.0.0 <3.3.17": 3.3.17
@@ -28,3 +28,5 @@ overrides:
 minimumReleaseAgeExclude:
   # Renovate security update: postcss@8.5.24
   - postcss@8.5.24
+  # Renovate security update: hono@4.13.5
+  - hono@4.13.5
