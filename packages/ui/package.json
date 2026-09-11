@@ -100,7 +100,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "vite": "8.1.5",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "peerDependencies": {
     "react": ">=19.2.0 <20",
