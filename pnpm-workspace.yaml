@@ -23,8 +23,10 @@ overrides:
   "postcss@<8.5.23": 8.5.23
   # Exact security override for GHSA-f88m-g3jw-g9cj. Remove once the pinned
   # Wrangler resolves sharp >=0.35.0.
-  "sharp@<0.35.0": 0.35.3
+  "sharp@<0.35.0": 0.35.4
   "undici@<7.29.0": 7.29.0
 minimumReleaseAgeExclude:
   # Renovate security update: postcss@8.5.24
   - postcss@8.5.24
+  # Renovate security update: sharp@0.35.4
+  - sharp@0.35.4
