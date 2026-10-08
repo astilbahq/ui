@@ -1,19 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":dependencyDashboard",
-    ":semanticCommits",
-    ":pinDevDependencies",
-    "group:monorepos",
-    "schedule:weekly"
-  ],
-  "timezone": "Europe/London",
-  "rangeStrategy": "pin",
-  "minimumReleaseAge": "3 days",
+  "extends": ["github>astilbahq/create:renovate-default"],
   "platformAutomerge": false,
-  "prConcurrentLimit": 5,
-  "prHourlyLimit": 2,
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["before 5am on monday"],
@@ -43,31 +31,9 @@
   ],
   "packageRules": [
     {
-      "description": "Manage the Node and pnpm engine floors by hand.",
-      "matchDepTypes": ["engines"],
-      "enabled": false
-    },
-    {
-      "description": "Auto-merge mature non-major development tools after verification.",
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
-    },
-    {
-      "description": "Require maintainer review for zero-major packages.",
-      "matchManagers": ["npm"],
-      "matchCurrentVersion": "/^0\\./",
-      "automerge": false
-    },
-    {
-      "description": "Never auto-merge major updates.",
-      "matchUpdateTypes": ["major"],
-      "automerge": false
-    },
-    {
-      "description": "Require maintainer review for GitHub Actions updates.",
-      "matchManagers": ["github-actions"],
+      "description": "Review changes to the Braces security backport.",
+      "matchPackageNames": ["braces", "@dieub/braces-depth-guard"],
+      "groupName": "Braces security backport",
       "automerge": false
     }
   ]

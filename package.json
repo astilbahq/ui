@@ -23,7 +23,7 @@
     "knip": "knip",
     "pack:check": "pnpm --filter @astilba/tokens pack:check && pnpm --filter @astilba/ui pack:check",
     "smoke:production": "node scripts/smoke-production.mjs",
-    "test": "pnpm --recursive test",
+    "test": "pnpm test:dependency-security && pnpm --recursive test",
     "test:astro": "pnpm --filter @astilba/tokens build && pnpm --filter @astilba/ui build && pnpm --filter @astilba/integration-astro test",
     "test:browser": "pnpm build && pnpm test:browser:run",
     "test:browser:install": "playwright install chromium",
@@ -33,13 +33,15 @@
     "typecheck": "pnpm --recursive typecheck",
     "verify": "pnpm verify:base && pnpm test:browser && pnpm deploy:dry-run",
     "verify:base": "pnpm check && pnpm typecheck && pnpm test && pnpm knip && pnpm pack:check",
-    "verify:release-version": "tsx scripts/verify-release-version.ts"
+    "verify:release-version": "tsx scripts/verify-release-version.ts",
+    "test:dependency-security": "node --test scripts/dependency-security.test.mjs"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
     "@axe-core/playwright": "4.12.1",
     "@playwright/test": "1.61.1",
     "@types/node": "24.13.3",
+    "braces": "npm:@dieub/braces-depth-guard@3.0.3-pn.3",
     "knip": "6.26.0",
     "oxfmt": "0.59.0",
     "oxlint": "1.74.0",
@@ -50,7 +52,7 @@
     "wrangler": "4.114.0"
   },
   "engines": {
-    "node": ">=22.18.0",
+    "node": "^22.18.0 || >=24.0.0",
     "pnpm": ">=11.10.0"
   },
   "packageManager": "pnpm@11.10.0"
